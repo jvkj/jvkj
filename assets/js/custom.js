@@ -5,7 +5,7 @@ function inputParameters() {
     document.getElementById("naslovStrani").textContent = `${naslov} - ${stran}`;
     document.getElementById("prepTime").textContent = `${prep}″`;
     
-document.getElementById("foto").innerHTML = `<img src="images/${photo}" alt="">`;
+document.getElementById("foto").innerHTML = `<img src="../images/${photo}" alt="">`;
     
 }
 
@@ -97,12 +97,24 @@ function setupIncrementDecrement() {
     });
 }
 
+// Render recipe steps dynamically
+function renderRecipeSteps(steps) {
+    const recipeContainer = document.querySelector(".col-8.col-12-medium"); // Adjust this selector if needed
+    recipeContainer.innerHTML = ""; // Clear any existing content
+
+    steps.forEach(step => {
+        const paragraph = document.createElement("p");
+        paragraph.innerHTML = step; // Insert the recipe step as HTML
+        recipeContainer.appendChild(paragraph);
+    });
+}
+
 // Initialize the page
 function init() {
     inputParameters();
     setupIncrementDecrement();
     multiplyBy();
-//    foto();
+    renderRecipeSteps(steps);
 }
 
 
