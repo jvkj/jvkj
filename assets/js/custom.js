@@ -5,7 +5,7 @@ function inputParameters() {
     document.getElementById("naslovStrani").textContent = `${naslov} - ${stran}`;
     document.getElementById("prepTime").textContent = `${prep}″`;
     
-document.getElementById("foto").innerHTML = `<img src="../images/${photo}" alt="">`;
+document.getElementById("foto").innerHTML = `<img src="images/${photo}" alt="">`;
     
 }
 
