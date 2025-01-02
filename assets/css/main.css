@@ -1626,7 +1626,10 @@ input[type="submit"].cus,
   input[type="button"].cus,
   button.cus,
   .button.cus {
-    padding: 0 0 0 0.5em !important; }
+    padding: 0 0 0 0.5em !important;
+    /*color: #5cadff !important;*/
+    background-color: #FAD28C !important;
+    }
       
 
 /* Mini Posts */
