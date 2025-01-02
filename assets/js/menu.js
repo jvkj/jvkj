@@ -24,7 +24,7 @@ function insertSimpleMenuItems(containerId, menuItems) {
 document.addEventListener("DOMContentLoaded", () => {
     const sladko = [
         { label: "Muffini - ČOKOLADNI", href: "#" },
-        { label: "Palačinke - AMERIŠKE", href: "ameriske_palacinke.html" },
+        { label: "Palačinke - AMERIŠKE", href: "palacinke_ameriske.html" },
         { label: "Palačinke - NAVADNE", href: "#" },
     ];
 
