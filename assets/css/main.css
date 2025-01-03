@@ -1627,8 +1627,11 @@ input[type="submit"].cus,
   button.cus,
   .button.cus {
     padding: 0 0 0 0.5em !important;
-    /*color: #5cadff !important;*/
-    background-color: #FAD28C !important;
+    background-color: transparent;
+  box-shadow: inset 0 0 0 2px #FAD28C !important;
+  color: #FAD28C !important;
+    /*color: #FAD28C !important;*/
+    /*background-color: #FAD28C !important;*/
     }
       
 
