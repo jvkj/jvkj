@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title id="naslovStrani"></title>
+    <script>
+    
+//------------------------------------------------------------------------------------------//
+        
+        const naslov = "Čokoladni muffini";
+        const stran = "Družinska zbirka receptov";
+        const photo = "choco-muffin.jpeg";
+        const prep = "50";
+        const kolicina = "ŠTEVILO MUFFINOV:"
+        const ingredients = {
+            mleka: 14.58,
+            moke: 18.75,
+            masla: 6.25,
+            sladkorja: 9.16,
+            "pecilnega praška": 1,
+            "vanilinega sladkorja": 0.83,
+            "čokolade za kuhanje": 15,
+            jajce: 0.083,
+            banane: 10,
+        };
+        const recipeSteps = [
+    'Na manjše koščke narežemo <strong><span id="čokolade_za_kuhanje2"></span> čokolade za kuhanje</strong>.<br><br><div class="box"><u>Z rezanjem ne pretiravamo</u> — <strong>večji koščki čokolade = manj dela & boljši muffini!</strong></div>V posodo z debelim dnom vržemo <strong><span id="masla2"></span> masla</strong> in polovico narezane čokolade.<br>Stopimo na <u>nizki temperaturi, brez hitenja</u>, ker zažgano maslo in čokolada NISTA KUL. Ko je zmes popolnoma stopljena in dobro povezana, pustimo nekaj minut, da se ohladi.',
+    'Medtem razbijemo <strong><span id="jajce2Quantity"></span> <span id="jajce2Name"></span></strong> in ločimo rumeno od belega. Rumenjaku dodamo <strong><span id="sladkorja2"></span> sladkorja</strong> in <strong><span id="vanilinega_sladkorja2"></span> vanilinega sladkorja</strong>. Nato jih stepamo, dokler ne izgleda gladko, puhasto in slastno (z degustacijo zaenkrat še počakamo).',
+    'V večji skledi dobro premešamo <strong><span id="moke2"></span> moke</strong> in <strong><span id="pecilnega_praška2"></span> pecilnega praška</strong>. Čoko-masleno zmes zdaj dodatno ohladimo z <strong><span id="mleka2"></span> mleka</strong> in dobro zmešamo. Postopoma vmešamo jajčno zmes, dobro premešamo in nato počasi dodajamo v moko. Mešamo, premešamo. Dobro. <u>ZELO dobro</u>. Nihče ne mara grudic!',
+    'Zmečkamo <strong><span id="banane2"></span> banane</strong> in jih dodamo v zmes — poskrbele bodo, da bodo muffini dlje časa ostali sočni. <br>Dodamo še polovico preostale narezane čokolade - zadnjo četrtino prihranimo za posip. <blockquote">Če jo bo še kaj ostalo.</blockquote><br>Beljake stepemo v čvrst sneg in jih ročno počasi, nežno vmešamo v zmes. Rahlo! Hočemo rahle muffine, ne betona!',
+    'Modelčke napolnite do roba, potem pa še zadnje koščke čokolade potresite po vrhu in jih rahlo potisnite v maso.<br>Pecite <strong>25 minut</strong> pri <strong>180 stopinjah</strong>. Potem pa, bum, imate čokoladne muffine, ki so vredni objave na socialnih omrežjih.'
+
+];
+
+//------------------------------------------------------------------------------------------//
+
+// Call the function during initialization
+document.addEventListener("DOMContentLoaded", () => {
+    renderRecipeSteps(recipeSteps);
+});
+    </script>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><strong><span style="text-transform: uppercase;" id="naslovRecepta"></span></strong> by JVKJ</a>
+									<!--ul class="icons">
+										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
+									</ul-->
+								</header>
+
+							<!-- Banner -->
+								<section id="banner">
+									<div class="content">
+											<h3>ČAS PRIPRAVE: <strong><em><span id="prepTime"></span></em></strong></h3>
+                        <hr />
+                        <h3 id="naslovKolicina"></h3>
+                        <form method="post" action="#">
+                            <div class="row gtr-uniform">
+                                <div class="col-4">
+                                    <ul class="actions fit">
+                                        
+<li><a href="#" id="minusButton" class="button default large fit cus icon solid fa-caret-down">
+</a></li>                                     
+                                    </ul>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" name="osebe" id="steviloOseb" value="12" class="cform align-center">
+                                </div>
+                                <div class="col-4">
+                                    <ul class="actions fit">
+                                        <li><a href="#" id="plusButton" class="button default large fit cus icon solid fa-caret-up">
+</a></li> 
+                                    </ul>
+                                </div>
+                                <div class="col-12">
+                                    <ul class="actions large fit">
+                                        <li><input type="button" onClick="multiplyBy()" value="Preračunaj" class="primary large fit" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+									<span class="image fit" id="foto">
+									</span>
+								</section>
+
+							<!-- Section ->
+								<section>
+									<header class="major">
+										<h2>Erat lacinia</h2>
+									</header>
+									<div class="features">
+										<article>
+											<span class="icon fa-gem"></span>
+											<div class="content">
+												<h3>Portitor ullamcorper</h3>
+												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											</div>
+										</article>
+										<article>
+											<span class="icon solid fa-paper-plane"></span>
+											<div class="content">
+												<h3>Sapien veroeros</h3>
+												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											</div>
+										</article>
+										<article>
+											<span class="icon solid fa-rocket"></span>
+											<div class="content">
+												<h3>Quam lorem ipsum</h3>
+												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											</div>
+										</article>
+										<article>
+											<span class="icon solid fa-signal"></span>
+											<div class="content">
+												<h3>Sed magna finibus</h3>
+												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+											</div>
+										</article>
+									</div>
+								</section-->
+
+							<!-- Section -->
+								<section>
+                                    <div class="row">
+                                        <div class="col-4 col-12-medium">
+                            <h3><u>SESTAVINE</u>:</h3>
+                            <ul class="alt" id="ingredientsList">
+                                <!-- Ingredients dynamically populated  -->
+                            </ul>
+                        </div>
+                        <div class="col-8 col-12-medium">
+                            <h3><u>POSTOPEK</u>:</h3>
+                            <span id="recipeContainer"></span>
+                           
+                        </div>
+                                        
+									</div>
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search ->
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section-->
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+                                     <li><a href="index.html">Začetna stran</a></li>
+										<li>
+											<span class="opener">Sladko</span>
+											<ul id="menu-sladko"></ul>
+										</li>
+										<!--li>
+											<span class="opener">Piškoti</span>
+											<ul id="menu-piskoti"></ul>
+										</li>
+                                        <!--li>
+											<span class="opener">Slano</span>
+											<ul id="menu-slano"></ul>
+										</li>
+										<li>
+											<span class="opener">Omake</span>
+											<ul id="menu-omake"></ul>
+										</<li>
+										<li>
+											<span class="opener">Ostalo</span>
+											<ul id="menu-ostalo"></ul>
+										</li-->
+									</ul>
+								</nav>
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>Najpogosteje uporabljeni:</h2>
+									</header>
+									<div class="mini-posts">
+										<article>
+											<h4><u>Palačinke - AMERIŠKE</u></h4>
+											<a href="palacinke_ameriske.html" class="image"><img src="images/am_pancakes.jpeg" alt="" /></a>
+											<p>Si si zaželel/a neverjetno puhast, zlato zapečen in sladek obrok? Ameriške palačinke so hitre in enostavne za pripravo - kot nalašč za visok kup, premazan/prelit z najljubšimi dodatki!</p>
+											<ul class="actions">
+												<li><a href="palacinke_ameriske.html" class="button primary">Recept</a></li>
+											</ul>
+										</article>
+										<article>
+											<h4><u>Muffini - ČOKOLADNI</u></h4>
+											<a href="muffini_coko.html" class="image"><img src="images/choco-muffin.jpeg" alt="" /></a>
+											<p>Prepusti se bogatemu in čokoladnemu okusu domačih čokoladnih mafinov. So hitri in enostavni za pripravo oz. popolni za potešitev želje po sladkem!</p>
+											<ul class="actions">
+												<li><a href="muffini_coko.html" class="button primary">Recept</a></li>
+											</ul>
+										</article>
+										<!--article>
+											<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+											<ul class="actions">
+												<li><a href="#" class="button primary">More</a></li>
+											</ul>
+										</article>
+								</section-->
+
+							<!-- Section ->
+								<section>
+									<header class="major">
+										<h2>Get in touch</h2>
+									</header>
+									<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+									<ul class="contact">
+										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
+										<li class="icon solid fa-phone">(000) 000-0000</li>
+										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
+										Nashville, TN 00000-0000</li>
+									</ul>
+								</section-->
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; 2025 - JVKJ. Vse pravice pridržane</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/menu.js"></script>
+			<script src="assets/js/custom.js" defer></script>
+            <script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
