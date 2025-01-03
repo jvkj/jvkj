@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sladko = [
         { label: "Muffini - ČOKOLADNI", href: "#" },
         { label: "Palačinke - AMERIŠKE", href: "palacinke_ameriske.html" },
-        { label: "Palačinke - NAVADNE", href: "#" },
+       // { label: "Palačinke - NAVADNE", href: "#" },
     ];
 
     const piskoti = [
