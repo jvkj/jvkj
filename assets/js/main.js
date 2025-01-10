@@ -1,6 +1,6 @@
 (function($) {
 
-	var	$window = $(window),
+	var $window = $(window),
 		$head = $('head'),
 		$body = $('body');
 
@@ -23,6 +23,17 @@
 				window.setTimeout(function() {
 					$body.removeClass('is-preload');
 				}, 100);
+
+				// Register Service Worker
+				if ('serviceWorker' in navigator) {
+					navigator.serviceWorker.register('/assets/js/service-worker.js').then(function(registration) {
+						// Registration was successful
+						console.log('ServiceWorker registration successful with scope: ', registration.scope);
+					}, function(err) {
+						// registration failed :(
+						console.log('ServiceWorker registration failed: ', err);
+					});
+				}
 			});
 
 		// ... stopped resizing.
