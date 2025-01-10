@@ -3,17 +3,18 @@
 const sladko = [
     { label: "Muffini - ČOKOLADNI", href: "muffini_coko.html" },
     { label: "Palačinke - AMERIŠKE", href: "palacinke_ameriske.html" },
-    //{ label: "Palačinke - NAVADNE", href: "#" },
+    { label: "Palačinke - NAVADNE", href: "#" },
+    { label: "Rižev narastek", href: "rizev_narastek.html" },
 ];
 
 const piskoti = [
     { label: "Krhki piškoti", href: "#" },
-    { label: "Skalce", href: "#" },
+    { label: "Skalce", href: "skalce.html" },
 ];
     
 const slano = [
-    { label: "Brstični ohrovt v gorčični omaki", href: "#" },
-    { label: "Piščančja obara", href: "#" },
+    { label: "Brstični ohrovt v gorčični omaki", href: "brst_oh_gorcicna.html" },
+    { label: "Piščančja obara", href: "piscancja_obara.html" },
 ];
 
 /*const omake = [
