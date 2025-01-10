@@ -2,13 +2,13 @@
 
 const sladko = [
     { label: "Muffini - ČOKOLADNI", href: "muffini_coko.html" },
+    { label: "Narastek - RIŽEV", href: "narastek_rizev.html" },
     { label: "Palačinke - AMERIŠKE", href: "palacinke_ameriske.html" },
-    { label: "Palačinke - NAVADNE", href: "#" },
-    { label: "Rižev narastek", href: "rizev_narastek.html" },
+    { label: "Palačinke - NAVADNE", href: "palacinke_navadne" },
 ];
 
 const piskoti = [
-    { label: "Krhki piškoti", href: "#" },
+    { label: "Krhki", href: "#krhki_piskoti.html" },
     { label: "Skalce", href: "skalce.html" },
 ];
     
