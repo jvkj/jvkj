@@ -25,6 +25,13 @@ const ostalo = [
     { label: "Liker - INGVERJEV", href: "#" },
 ];*/
 
+/*const dev = [
+    { label: "Test", href: "test.html" },
+    { label: "Test2", href: "test2.html" },
+    { label: "Index", href: "test_index.html" },
+    { label: "Tekst", href: "test_tekstZaRecept.html" },
+];*/
+
 const articles = [
     {
         title: "Palačinke - AMERIŠKE",
