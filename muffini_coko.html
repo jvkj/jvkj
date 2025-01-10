@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title></title>
+    
+    <script>
+        //------------------------------------------------------------------------------------------
+        
+        const naslov = "Čokoladni muffini";
+        const zbirka = "Recepti od A do Ž";
+        const photo = "choco-muffin.jpeg";
+        
+        const kolicina = "ŠTEVILO PORCIJ"; // Quantity
+        const zacetnaKolicina = 1;
+        
+        const opombe = "1 porcija zadošča za 12 muffinov";
+        
+        const cas1 = 20; // Preparation time
+        const cas2 = 0; // Wait time
+        const cas3 = 25; // Cook/Bake time
+
+        const cas1Adjust = 0; // 1 - adjust time based on quantity; 0 - do not adjust
+        const cas2Adjust = 0; // 1 - adjust time based on quantity; 0 - do not adjust
+        const cas3Adjust = 1; // 1 - adjust time based on quantity; 0 - do not adjust
+
+        const cas1Name = "Priprava"; // Name to display for cas1
+        const cas2Name = "Počitek"; // Name to display for cas2
+        const cas3Name = "Peka"; // Name to display for cas3
+        const skupniCasName = "SKUPNI ČAS PRIPRAVE"; // Name to display for skupniCas
+
+        const sestavine = {
+            mleka: 175,
+            moke: 225,
+            masla: 75,
+            sladkorja: 60,
+            "pecilnega praška": 12,
+            "vanilinega sladkorja": 10,
+            "čokolade za kuhanje": 180,
+            jajce: 1,
+            banane: 1,
+        }; // Ingredients list
+        
+        const postopek = [
+            'Na manjše koščke narežemo <strong class="ingredient-quantity čokolade_za_kuhanje">čokolade za kuhanje</strong>.<br><div class="box"><center><h4>Z rezanjem ne pretiravamo — <yello>večji koščki čokolade = manj dela & boljši muffini!</yello></h4></center></div>V posodo z debelim dnom vržemo <strong class="ingredient-quantity masla">masla</strong> in <pomemebno>polovico narezane čokolade</pomembno>.<br>Stopimo na <pomembno>nizki temperaturi</pomembno>, brez hitenja, ker <yello>zažgano maslo in čokolada NISTA KUL</yello>. Ko je zmes popolnoma stopljena in dobro povezana, pustimo nekaj minut, da se ohladi.',
+            'Medtem razbijemo <strong class="ingredient-quantity jajce">jajce</strong> in ločimo rumeno od belega. Rumenjaku dodamo <strong class="ingredient-quantity sladkorja">sladkorja</strong> in <strong class="ingredient-quantity vanilinega_sladkorja">vanilinega sladkorja</strong>. Nato jih stepamo, dokler ne izgleda gladko, puhasto in slastno (z degustacijo zaenkrat še počakamo).',
+            'V večji skledi dobro premešamo <strong class="ingredient-quantity moke">moke</strong> in <strong class="ingredient-quantity pecilnega_praška">pecilnega praška</strong>. Čoko-masleno zmes zdaj dodatno ohladimo z <strong class="ingredient-quantity mleka">mleka</strong> and dobro zmešamo. Postopoma vmešamo jajčno zmes, dobro premešamo in nato počasi dodajamo v moko. Mešamo, premešamo. Dobro. <yello>Zelo dobro - Nihče ne mara grudic!</yello>',
+            'Zmečkamo <strong class="ingredient-quantity banane">banane</strong> in jih dodamo v zmes — poskrbele bodo, da bodo muffini dlje časa ostali sveži in sočni. <br>Dodamo še <pomembno>polovico</pomembno> preostale narezane čokolade - <pomembno>zadnjo četrtino prihranimo za posip</pomembno>. <blockquote>Jo bo še kaj ostalo? - Ljudje, <yello>žvižgat bo treba!</yello> <i class="fas fa-grin-wink"></i><span class="icon brands fa-grin-wink"></span></blockquote>Beljake stepemo v čvrst sneg in jih ročno počasi, nežno vmešamo v zmes. <yello>Rahlo!</yello> <pomembno>Želimo rahle muffine, ne betona</pomembno>!',
+            'Modelčke napolnimo do roba, potem pa še zadnje koščke čokolade potresemo po vrhu in jih rahlo potisnemo v maso.<br><div class="box"><center><h4>Pečemo <yello>25 minut</yello> pri <yello>180°C</yello>.</h4></center></div>Potem pa, čira, čara, bum, imate čokoladne muffine, ki so vredni objave na socialnih omrežjih.'
+        ]; // Recipe process
+        
+        //------------------------------------------------------------------------------------------
+    </script>
+    
+    <script src="assets/js/sidebar.js" defer></script>
+    <script src="assets/js/custom.js" defer></script>
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+
+                <!-- Header -->
+                <header id="header">
+                    <a href="index.html" class="logo">
+                        <strong><span style="text-transform: uppercase;" id="naslov-recepti-1"></span> - <span style="text-transform: uppercase;" id="zbirka-recepti"></span></strong> by JVKJ
+                    </a>
+                </header>
+                
+                <!-- Banner -->
+                <section id="banner">
+                    <div class="content">
+                        <header>
+                            <h1><span id="naslov-recepti-2"></span></h1>
+                            <!--p>by JVKJ</p-->
+                        </header>
+                        <span id="prepTime"></span>
+                            <!--hr /-->
+                            <h3><u><span id="naslovKolicina"></span></u>:</h3>
+                            <form method="post" action="#">
+                                <div class="row gtr-uniform">
+                                    <div class="col-4">
+                                        <ul class="actions fit">
+                                            <li>
+                                                <a href="#" id="minusButton" class="button default large fit cus icon solid fa-caret-down"></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="text" name="osebe" id="steviloOseb" value="1" class="cform align-center">
+                                    </div>
+                                    <div class="col-4">
+                                        <ul class="actions fit">
+                                            <li>
+                                                <a href="#" id="plusButton" class="button default large fit cus icon solid fa-caret-up"></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-12">
+                                        <ul class="actions large fit">
+                                            <li>
+                                                <input type="button" onClick="multiplyBy()" value="Preračunaj" class="primary large fit" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-12" id="notesContainer"></div>
+                                </div>
+                            </form>
+                        
+                    </div>
+                    <span class="image fit" id="foto"></span>
+                </section>
+
+                <!-- Ingredients and Steps Section -->
+                <section>
+                    <div class="row">
+                        <div class="col-4 col-12-medium">
+                            <h3><u>SESTAVINE</u>:</h3>
+                            <ul class="alt" id="ingredientsList">
+                                <!-- Ingredients dynamically populated here -->
+                            </ul>
+                        </div>
+                        <div class="col-8 col-12-medium">
+                            <h3><u>POSTOPEK</u>:</h3>
+                            <div class="row">
+                                <div class="col-6 col-12-medium" id="recipeContainer1"></div>
+                                <div class="col-6 col-12-medium" id="recipeContainer2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Section -->
+                <section>
+                    <header class="major">
+                        <h2>OSTALI recepti</h2>
+                    </header>
+                    <div id="vsi-recepti" class="posts"></div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="inner">
+                <!-- Search -->
+                <nav id="menu">
+                    <header class="major">
+                        <h2>Menu</h2>
+                    </header>
+                    <ul>
+                        <li><a href="index.html">Začetna stran</a></li>
+                        <li><span class="opener">Sladko</span>
+                            <ul id="menu-sladko"></ul>
+                        </li>
+                        <li><span class="opener">Dev</span>
+                            <ul id="menu-dev"></ul>
+                        </li>
+                    </ul>
+                </nav>
+                <section>
+                    <header class="major">
+                        <h2>Najpogosteje uporabljeni:</h2>
+                    </header>
+                    <div id="miniPostsContainer" class="mini-posts">
+                    </div>
+                </section>
+                <footer id="footer">
+                    <p class="copyright">© 2025 - JVKJ. Vse pravice pridržane.</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>
