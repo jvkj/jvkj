@@ -52,7 +52,7 @@ const articles = [
 // Usage - moved here right after constant definitions
 
 renderMenu(sladko, 'menu-sladko');
-renderMenu(dev, 'menu-dev');
+//renderMenu(dev, 'menu-dev');
 renderArticles(articles, 'miniPostsContainer');
 renderPhoto(photo, 'foto');
 renderText(naslov, 'naslov-recepti-1');
