@@ -26,7 +26,7 @@
 
 				// Register Service Worker
 				if ('serviceWorker' in navigator) {
-					navigator.serviceWorker.register('/assets/js/service-worker.js').then(function(registration) {
+					navigator.serviceWorker.register('/jvkj/assets/js/service-worker.js').then(function(registration) {
 						// Registration was successful
 						console.log('ServiceWorker registration successful with scope: ', registration.scope);
 					}, function(err) {
