@@ -49,13 +49,6 @@ const articles = [
         alt: "Čokoladni muffini",
         description: "Prepusti se bogatemu in čokoladnemu okusu domačih čokoladnih mafinov. So hitri in enostavni za pripravo oz. popolni za potešitev želje po sladkem!"
     },
-    {
-        title: "Palačinke",
-        link: "palacinke_ameriske.html",
-        image: "am_pancakes.jpeg",
-        alt: "Ameriške palačinke",
-        description: "Si si zaželel/a neverjetno puhast, zlato zapečen in sladek obrok? Ameriške palačinke so hitre in enostavne za pripravo - kot nalašč za visok kup, premazan/prelit z najljubšimi dodatki!"
-    },
 ];
 
 // Usage - moved here right after constant definitions
