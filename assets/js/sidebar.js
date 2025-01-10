@@ -61,7 +61,7 @@ const articles = [
 
 renderMenu(sladko, 'menu-sladko');
 renderMenu(slano, 'menu-slano');
-renderMenu(piskoti, 'menu-piškoti ');
+renderMenu(piskoti, 'menu-piskoti');
 renderArticles(articles, 'miniPostsContainer');
 renderPhoto(photo, 'foto');
 renderText(naslov, 'naslov-recepti-1');
