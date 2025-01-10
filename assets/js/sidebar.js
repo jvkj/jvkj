@@ -6,16 +6,17 @@ const sladko = [
     //{ label: "Palačinke - NAVADNE", href: "#" },
 ];
 
-/*const piskoti = [
+const piskoti = [
     { label: "Krhki piškoti", href: "#" },
     { label: "Skalce", href: "#" },
 ];
     
 const slano = [
-    { label: "Lorem Dolor", href: "#" },
+    { label: "Brstični ohrovt v gorčični omaki", href: "#" },
+    { label: "Piščančja obara", href: "#" },
 ];
 
-const omake = [
+/*const omake = [
     { label: "Tunina omaka", href: "#" },
     { label: "Zelenjavna omaka", href: "#" },
 ];
@@ -23,9 +24,9 @@ const omake = [
 const ostalo = [
     { label: "Liker - BANANIN", href: "#" },
     { label: "Liker - INGVERJEV", href: "#" },
-];*/
+];
 
-/*const dev = [
+const dev = [
     { label: "Test", href: "test.html" },
     { label: "Test2", href: "test2.html" },
     { label: "Index", href: "test_index.html" },
@@ -47,12 +48,20 @@ const articles = [
         alt: "Čokoladni muffini",
         description: "Prepusti se bogatemu in čokoladnemu okusu domačih čokoladnih mafinov. So hitri in enostavni za pripravo oz. popolni za potešitev želje po sladkem!"
     },
+    {
+        title: "Palačinke",
+        link: "palacinke_ameriske.html",
+        image: "am_pancakes.jpeg",
+        alt: "Ameriške palačinke",
+        description: "Si si zaželel/a neverjetno puhast, zlato zapečen in sladek obrok? Ameriške palačinke so hitre in enostavne za pripravo - kot nalašč za visok kup, premazan/prelit z najljubšimi dodatki!"
+    },
 ];
 
 // Usage - moved here right after constant definitions
 
 renderMenu(sladko, 'menu-sladko');
-//renderMenu(dev, 'menu-dev');
+renderMenu(slano, 'menu-slano');
+renderMenu(piskoti, 'menu-piškoti ');
 renderArticles(articles, 'miniPostsContainer');
 renderPhoto(photo, 'foto');
 renderText(naslov, 'naslov-recepti-1');
