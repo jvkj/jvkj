@@ -25,13 +25,6 @@ const ostalo = [
     { label: "Liker - INGVERJEV", href: "#" },
 ];*/
 
-const dev = [
-    { label: "Test", href: "test.html" },
-    { label: "Test2", href: "test2.html" },
-    { label: "Index", href: "test_index.html" },
-    { label: "Tekst", href: "test_tekstZaRecept.html" },
-];
-
 const articles = [
     {
         title: "Palačinke - AMERIŠKE",
@@ -46,13 +39,6 @@ const articles = [
         image: "choco-muffin.jpeg",
         alt: "Čokoladni muffini",
         description: "Prepusti se bogatemu in čokoladnemu okusu domačih čokoladnih mafinov. So hitri in enostavni za pripravo oz. popolni za potešitev želje po sladkem!"
-    },
-    {
-        title: "Palačinke",
-        link: "palacinke_ameriske.html",
-        image: "am_pancakes.jpeg",
-        alt: "Ameriške palačinke",
-        description: "Si si zaželel/a neverjetno puhast, zlato zapečen in sladek obrok? Ameriške palačinke so hitre in enostavne za pripravo - kot nalašč za visok kup, premazan/prelit z najljubšimi dodatki!"
     },
 ];
 
