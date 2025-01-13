@@ -1,5 +1,22 @@
 // custom.js
 
+// Constants for ingredient plural forms
+const foodPlurals = {
+    'jajce': ['jajce', 'jajci', 'jajca', 'jajca', 'jajc'],
+    'banane': ['banana', 'banani', 'banane', 'banane', 'banan'],
+    'cvetača': ['cvetača', 'cvetači', 'cvetače', 'cvetače', 'cvetač'],
+    'limona': ['limona', 'limoni', 'limone', 'limone', 'limon'],
+    'ananas': ['ananas', 'ananasa', 'ananasi', 'ananasi', 'ananasov']
+};
+
+// Constants for quantity plural forms
+const quantityPlurals = {
+    'žlica': ['žlica', 'žlici', 'žlice', 'žlice', 'žlic'],
+    'žlička': ['žlička', 'žlički', 'žličke', 'žličke', 'žličk'],
+    'ščepec': ['ščepec', 'ščepca', 'ščepci', 'ščepci', 'ščepcev'],
+    'ščep': ['ščep', 'ščepa', 'ščepi', 'ščepi', 'ščepov']
+};
+
 // Function to update the displayed quantity in the h3 tag
 function updateQuantityText() {
     const quantityElement = document.getElementById('naslovKolicina');
@@ -8,11 +25,19 @@ function updateQuantityText() {
     }
 }
 
-// Function to handle singular, dual, and plural forms of ingredients like eggs and bananas
-function adjustPlural(number, singular, dual, plural) {
-    if (number === 1) return singular;
-    if (number === 2) return dual;
-    return plural;
+// Function to handle singular, dual, and plural forms of quantities and ingredients
+function adjustPlural(number, itemName) {
+    const isQuantity = itemName in quantityPlurals;
+    const plurals = isQuantity ? quantityPlurals[itemName] : foodPlurals[itemName];
+    
+    if (plurals) {
+        if (number >= 1 && number <= 5) {
+            return plurals[number - 1];
+        } else {
+            return plurals[4]; // Use the form for 5 or more
+        }
+    }
+    return itemName; // If no specific plural form found, return singular form
 }
 
 // Function to distribute steps into two columns, maintaining sequence
@@ -39,25 +64,37 @@ function updateRecipe(quantity) {
     let html = '';
     for (const [ingredient, grams] of Object.entries(sestavine)) {
         let adjustedQuantity = grams * quantity;
+        let ingredientName = ingredient;
+        let isQuantity = false;
         
-        // Special handling for eggs and bananas
-        if (ingredient === 'jajce' || ingredient === 'banane') {
-            // For fractional values, ensure at least 1 is displayed
-            let roundedQuantity = Math.max(1, Math.round(adjustedQuantity));
-            
-            // Handle singular, dual, and plural forms
-            let adjustedText = adjustPlural(roundedQuantity, 
-                ingredient === 'jajce' ? 'jajce' : 'banana',
-                ingredient === 'jajce' ? 'jajci' : 'banani',
-                ingredient === 'jajce' ? 'jajca' : 'banane');
-            if (roundedQuantity >= 5) {
-                adjustedText = ingredient === 'jajce' ? 'jajc' : 'banan';
+        // Check if the ingredient starts with a known quantity term
+        for (const quantityTerm of Object.keys(quantityPlurals)) {
+            if (ingredient.startsWith(quantityTerm + ' ')) {
+                isQuantity = true;
+                let [quantityType, actualIngredient] = ingredient.split(' ', 2);
+                ingredientName = actualIngredient; // Now we have only the ingredient name
+                let roundedQuantity = Math.max(1, Math.round(adjustedQuantity));
+                
+                let adjustedText = adjustPlural(roundedQuantity, quantityType);
+                
+                html += `<li><strong>${roundedQuantity}</strong> ${adjustedText} ${ingredientName}</li>`;
+                break;
             }
-            html += `<li><strong>${roundedQuantity}</strong> ${adjustedText}</li>`;
-        } else {
-            // For other ingredients, round to whole number for grams
-            let displayQuantity = Math.round(adjustedQuantity);
-            html += `<li><strong>${displayQuantity}g</strong> ${ingredient}</li>`;
+        }
+
+        if (!isQuantity) {
+            // Check if the ingredient is one of our special food items
+            if (ingredient in foodPlurals) {
+                let roundedQuantity = Math.max(1, Math.round(adjustedQuantity));
+                
+                let adjustedText = adjustPlural(roundedQuantity, ingredient);
+                
+                html += `<li><strong>${roundedQuantity}</strong> ${adjustedText}</li>`;
+            } else {
+                // For other ingredients, round to whole number for grams
+                let displayQuantity = Math.round(adjustedQuantity);
+                html += `<li><strong>${displayQuantity}</strong>g ${ingredientName}</li>`;
+            }
         }
     }
     ingredientsList.innerHTML = html;
@@ -70,16 +107,18 @@ function updateRecipe(quantity) {
             let adjustedQuantity = (grams * quantity);
             let classname = ingredient.replace(/\s/g, '_');
             
-            if (ingredient === 'jajce' || ingredient === 'banane') {
-                // Use at least 1 for eggs and bananas
+            if (ingredient in quantityPlurals || ingredient.split(' ')[0] in quantityPlurals) {
+                let quantityType = ingredient.split(' ')[0];
+                let actualIngredient = ingredient.split(' ')[1] || '';
                 let roundedQuantity = Math.max(1, Math.round(adjustedQuantity));
-                let adjustedText = adjustPlural(roundedQuantity, 
-                    ingredient === 'jajce' ? 'jajce' : 'banana',
-                    ingredient === 'jajce' ? 'jajci' : 'banani',
-                    ingredient === 'jajce' ? 'jajca' : 'banane');
-                if (roundedQuantity >= 5) {
-                    adjustedText = ingredient === 'jajce' ? 'jajc' : 'banan';
-                }
+                
+                let adjustedText = adjustPlural(roundedQuantity, quantityType);
+                
+                step = step.replace(new RegExp(`<strong class="ingredient-quantity ${classname}">\\s*${ingredient}\\s*<\/strong>`, 'g'), `<strong>${roundedQuantity} ${adjustedText} ${actualIngredient}</strong>`);
+            } else if (ingredient in foodPlurals) {
+                let roundedQuantity = Math.max(1, Math.round(adjustedQuantity));
+                let adjustedText = adjustPlural(roundedQuantity, ingredient);
+                
                 step = step.replace(new RegExp(`<strong class="ingredient-quantity ${classname}">\\s*${ingredient}\\s*<\/strong>`, 'g'), `<strong>${roundedQuantity} ${adjustedText}</strong>`);
             } else {
                 // Round grams for other ingredients
