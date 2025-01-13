@@ -1640,6 +1640,20 @@ input[type="submit"].cus,
     /*color: #FAD28C !important;*/
     /*background-color: #FAD28C !important;*/
     }
+    
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Aligns buttons to the left */
+    gap: 0.8em;
+}
+
+.button-container .button {
+    flex: 0 1 auto; /* Don't grow, shrink if necessary, default size */
+    margin-bottom: 0.4em;
+    min-width: fit-content; /* Fit to the content, but set a minimum */
+    width: auto; /* Let the width be determined by content */
+}
       
 
 /* Mini Posts */
