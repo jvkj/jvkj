@@ -7,13 +7,15 @@ function setPageTitle(naslov, zbirka) {
 // Render menu based on tags
 function renderMenu() {
     const tags = new Set(articles.map(article => article.tag));
+    const currentPage = window.location.pathname.split('/').pop(); // Get the current page's filename
+
     tags.forEach(tag => {
         const menuId = `menu-${tag}`;
         const menu = document.getElementById(menuId);
         if (menu) {
             let html = '';
             articles.forEach(article => {
-                if (article.tag === tag) {
+                if (article.tag === tag && article.link !== currentPage) { // Exclude current page
                     html += `<li><a href="${article.link}">${article.title}</a></li>`;
                 }
             });
@@ -26,29 +28,35 @@ function renderMenu() {
 function renderFavorites() {
     const favoritesContainer = document.getElementById('miniPostsContainer');
     if (favoritesContainer) {
+        const currentPage = window.location.pathname.split('/').pop(); // Get the current page's filename
         let html = '';
-        articles.filter(article => article.fav === "1").forEach(article => {
-            html += `
-            <article data-filter="${article.tag}">
-                <h4><u><a href="${article.link}">${article.title}</a></u></h4>
-                <a href="${article.link}" class="image"><img src="images/${article.image}" alt="${article.alt}" /></a>
-                <p>${article.description}</p>
-                <ul class="actions">
-                    <li><a href="${article.link}" class="button primary">Recept</a></li>
-                </ul>
-            </article>`;
-        });
+        articles
+            .filter(article => article.fav === "1" && article.link !== currentPage) // Exclude current page
+            .forEach(article => {
+                html += `
+                <article data-filter="${article.tag}">
+                    <h4><u><a href="${article.link}">${article.title}</a></u></h4>
+                    <a href="${article.link}" class="image"><img src="images/${article.image}" alt="${article.alt}" /></a>
+                    <p>${article.description}</p>
+                    <ul class="actions">
+                        <li><a href="${article.link}" class="button primary">Recept</a></li>
+                    </ul>
+                </article>`;
+            });
         favoritesContainer.innerHTML = html;
     }
 }
 
-// Render all articles with filtering capability
 function renderArticles() {
     const articlesContainer = document.getElementById('vsi-recepti');
     if (!articlesContainer) return;
 
-    // Sort articles alphabetically
-    const sortedArticles = articles.sort((a, b) => a.title.localeCompare(b.title));
+    const currentPage = window.location.pathname.split('/').pop(); // Get the current page's filename
+
+    // Sort articles alphabetically and exclude the current page
+    const sortedArticles = articles
+        .filter(article => article.link !== currentPage) // Exclude current page
+        .sort((a, b) => a.title.localeCompare(b.title));
 
     // Generate HTML for sorted articles
     let html = '';
@@ -82,17 +90,19 @@ function renderFilterButtons() {
     }
 }
 
-// Filter content based on the clicked button
 function filterContent(filter) {
     const articlesContainer = document.getElementById('vsi-recepti');
     if (!articlesContainer) return;
+
+    const currentPage = window.location.pathname.split('/').pop(); // Get the current page's filename
 
     // Clear current articles
     articlesContainer.innerHTML = '';
 
     // Filter and sort articles alphabetically
-    const filteredArticles = articles.filter(article => filter === 'all' || article.tag.toLowerCase() === filter)
-                                     .sort((a, b) => a.title.localeCompare(b.title));
+    const filteredArticles = articles
+        .filter(article => (filter === 'all' || article.tag.toLowerCase() === filter) && article.link !== currentPage) // Exclude current page
+        .sort((a, b) => a.title.localeCompare(b.title));
 
     // Generate HTML for filtered articles
     let html = '';
