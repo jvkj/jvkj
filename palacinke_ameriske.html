@@ -1,200 +1,201 @@
 <!DOCTYPE HTML>
 
 <html>
-<head>
-    <title></title>
+    <head>
+        <title></title>
+        <script>
+        
+            //------------------------------------------------------------------------------------------//
+            
+            const naslov = "Ameriške palačinke";
+            const zbirka = "Recepti od A do Ž";
+            const photo = "palacinke_ameriske.jpeg";
+            
+            const kolicina = "ŠTEVILO OSEB"; // Quantity
+            const zacetnaKolicina = 3;
+            
+            const opombe = "0";//"1 porcija zadošča za 12 muffinov";
+            
+            const cas1 = 10; // Preparation time
+            const cas2 = 5; // Wait time
+            const cas3 = 4; // Cook/Bake time
     
-    <script>
-        //------------------------------------------------------------------------------------------
-        
-        const naslov = "Ameriške palačinke";
-        const zbirka = "Recepti od A do Ž";
-        const photo = "palacinke_ameriske.jpeg";
-        
-        const kolicina = "ŠTEVILO OSEB"; // Quantity
-        const zacetnaKolicina = 3;
-        
-        const opombe = "0";//"1 porcija zadošča za 12 muffinov";
-        
-        const cas1 = 10; // Preparation time
-        const cas2 = 5; // Wait time
-        const cas3 = 4; // Cook/Bake time
+            const cas1Adjust = 0; // 1 - adjust time based on quantity; 0 - do not adjust
+            const cas2Adjust = 0; // 1 - adjust time based on quantity; 0 - do not adjust
+            const cas3Adjust = 1; // 1 - adjust time based on quantity; 0 - do not adjust
+    
+            const cas1Name = "Priprava"; // Name to display for cas1
+            const cas2Name = "Počitek"; // Name to display for cas2
+            const cas3Name = "Peka"; // Name to display for cas3
+            const skupniCasName = "SKUPNI ČAS PRIPRAVE"; // Name to display for skupniCas
+    
+            const sestavine = {
+                mleka: 128.666,
+                moke: 100,
+                sladkorja: 20,
+                "pecilnega praška": 4.333,
+                soli: 1.333,
+                masla: 7,
+                jajce: 0.333,
+            };
+            
+            const postopek = [
+                'V manjši posodi penasto vmešamo <strong class="ingredient-quantity jajce">jajce</strong> in <strong class="ingredient-quantity mleka">mleka</strong>. Nič kompliciranja, ker ni raketna znanost.',
+                'V drugi, večji posodi zmešamo <strong class="ingredient-quantity moke">moke</strong>, <strong class="ingredient-quantity sladkorja">sladkorja</strong>, <strong class="ingredient-quantity pecilnega_praška">pecilnega praška</strong> in <strong class="ingredient-quantity soli">soli</strong>. Za dobro mero, se enkrat premešamo.',
+                'Na ponvi, kjer bomo pekli palačinke, na nizki temperaturi stopimo <strong class="ingredient-quantity masla">masla</strong>. Ne hitimo – <yello>zažgano maslo je "no bueno"!</yello>',
+                'Zdaj, ob stalnem mešanju, dodamo mokre sestavine k suhim. Mešamo, da se vse sestavine lepo povežejo.<br><yello>Ne pozabimo - grudic ne mara nihče!</yello>',
+                'Nato počasi dodajamo <pomembno>stopljeno maslo</pomembno>.<br><yello>Še vedno mešamo!</yello><br>Ne zavržemo niti kapljice - maslo naredi vse boljše. Mešamo, dokler se vse ne poveže v lepo, gladko harmonijo v skledi.',
+                'Pripravljeno maso pustimo počivati <yello>5 minut</yello>. Ja, <yello>PET</yello> minut. To je čas, ko se zgodi čarovnija.',
+                'Medtem naoljimo in segrejemo ponev nad srednjo temperaturo. Pripravimo se, zdaj bo šlo zares!',
+                'Z večjo žlico ali dozirnikom na ponev dodajamo maso in pečemo <yello>1-2 minuti</yello> na vsaki strani oz. <pomembno>dokler ne postanejo tiste popolne, zlato rjave barve</pomembno>.',
+                '<div class="box"><center><h4>Postrežemo s prelivom, sirupom ali namazom po izbiri. Ampak iskreno, te <yello>palačinke so tako dobre</yello>, da jih lahko mirne duše jemo tudi <yello>brez vsega</yello>!</h4></center></div>',
+            ]; // Recipe process
+            
+            //------------------------------------------------------------------------------------------//
 
-        const cas1Adjust = 0; // 1 - adjust time based on quantity; 0 - do not adjust
-        const cas2Adjust = 0; // 1 - adjust time based on quantity; 0 - do not adjust
-        const cas3Adjust = 1; // 1 - adjust time based on quantity; 0 - do not adjust
+        </script>
+        <script src="assets/js/articles.js" defer></script>
+        <script src="assets/js/sidebar.js" defer></script>
+        <script src="assets/js/custom.js" defer></script>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="Recepti od A do Ž - by JVKJ">
+        <link rel="apple-touch-icon" href="images/icon.png">
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <link rel="manifest" href="/manifest.json">
+    </head>
+    <body class="is-preload">
 
-        const cas1Name = "Priprava"; // Name to display for cas1
-        const cas2Name = "Počitek"; // Name to display for cas2
-        const cas3Name = "Peka"; // Name to display for cas3
-        const skupniCasName = "SKUPNI ČAS PRIPRAVE"; // Name to display for skupniCas
+        <!-- Wrapper -->
+        <div id="wrapper">
 
-        const sestavine = {
-            mleka: 128.666,
-            moke: 100,
-            sladkorja: 20,
-            "pecilnega praška": 4.333,
-            soli: 1.333,
-            masla: 7,
-            jajce: 0.333,
-        };
-        
-        const postopek = [
-            'V manjši posodi penasto vmešamo <strong class="ingredient-quantity jajce">jajce</strong> in <strong class="ingredient-quantity mleka">mleka</strong>. Nič kompliciranja, ker ni raketna znanost.',
-'V drugi, večji posodi zmešamo <strong class="ingredient-quantity moke">moke</strong>, <strong class="ingredient-quantity sladkorja">sladkorja</strong>, <strong class="ingredient-quantity pecilnega_praška">pecilnega praška</strong> in <strong class="ingredient-quantity soli">soli</strong>. Za dobro mero, se enkrat premešamo.',
-'Na ponvi, kjer bomo pekli palačinke, na nizki temperaturi stopimo <strong class="ingredient-quantity masla">masla</strong>. Ne hitimo – <yello>zažgano maslo je "no bueno"!</yello>',
-'Zdaj, ob stalnem mešanju, dodamo mokre sestavine k suhim. Mešamo, da se vse sestavine lepo povežejo.<br><yello>Ne pozabimo - grudic ne mara nihče!</yello>',
-'Nato počasi dodajamo <pomembno>stopljeno maslo</pomembno>.<br><yello>Še vedno mešamo!</yello><br>Ne zavržemo niti kapljice - maslo naredi vse boljše. Mešamo, dokler se vse ne poveže v lepo, gladko harmonijo v skledi.',
-'Pripravljeno maso pustimo počivati <yello>5 minut</yello>. Ja, <yello>PET</yello> minut. To je čas, ko se zgodi čarovnija.',
-'Medtem naoljimo in segrejemo ponev nad srednjo temperaturo. Pripravimo se, zdaj bo šlo zares!',
-'Z večjo žlico ali dozirnikom na ponev dodajamo maso in pečemo <yello>1-2 minuti</yello> na vsaki strani oz. <pomembno>dokler ne postanejo tiste popolne, zlato rjave barve</pomembno>.',
-'<div class="box"><center><h4>Postrežemo s prelivom, sirupom ali namazom po izbiri. Ampak iskreno, te <yello>palačinke so tako dobre</yello>, da jih lahko mirne duše jemo tudi <yello>brez vsega</yello>!</h4></center></div>',
-];
-        
-        //------------------------------------------------------------------------------------------
-    </script>
-    <script src="assets/js/articles.js"defer></script>
-    <script src="assets/js/sidebar.js"defer></script>
-    <script src="assets/js/custom.js"defer></script>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Recepti od A do Ž - by JVKJ">
-<link rel="apple-touch-icon" href="images/icon.png">
-    <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="manifest" href="/manifest.json">
-</head>
-<body class="is-preload">
+            <!-- Main -->
+            <div id="main">
+                <div class="inner">
 
-    <!-- Wrapper -->
-    <div id="wrapper">
-
-        <!-- Main -->
-        <div id="main">
-            <div class="inner">
-
-                <!-- Header -->
-                <header id="header">
-                    <a href="index.html" class="logo">
-                        <strong><span style="text-transform: uppercase;" id="naslov-recepti-1"></span> - <span style="text-transform: uppercase;" id="zbirka-recepti"></span></strong> by JVKJ
-                    </a>
-                </header>
-                
-                <!-- Banner -->
-                <section id="banner">
-                    <div class="content">
-                        <header>
-                            <h1><span id="naslov-recepti-2"></span></h1>
-                            <!--p>by JVKJ</p-->
-                        </header>
-                        <span id="prepTime"></span>
-                            <!--hr /-->
-                            <h3><u><span id="naslovKolicina"></span></u>:</h3>
-                            <form method="post" action="#">
-                                <div class="row gtr-uniform">
-                                    <div class="col-4">
-                                        <ul class="actions fit">
-                                            <li>
-                                                <a href="#" id="minusButton" class="button default large fit cus icon solid fa-caret-down"></a>
-                                            </li>
-                                        </ul>
+                    <!-- Header -->
+                    <header id="header">
+                        <a href="index.html" class="logo">
+                            <strong><span style="text-transform: uppercase;" id="naslov-recepti-1"></span> - <span style="text-transform: uppercase;" id="zbirka-recepti"></span></strong> by JVKJ
+                        </a>
+                    </header>
+                    
+                    <!-- Banner -->
+                    <section id="banner">
+                        <div class="content">
+                            <header>
+                                <h1><span id="naslov-recepti-2"></span></h1>
+                                <!--p>by JVKJ</p-->
+                            </header>
+                            <span id="prepTime"></span>
+                                <!--hr /-->
+                                <h3><u><span id="naslovKolicina"></span></u>:</h3>
+                                <form method="post" action="#">
+                                    <div class="row gtr-uniform">
+                                        <div class="col-4">
+                                            <ul class="actions fit">
+                                                <li>
+                                                    <a href="#" id="minusButton" class="button default large fit cus icon solid fa-caret-down"></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" name="osebe" id="steviloOseb" value="1" class="cform align-center">
+                                        </div>
+                                        <div class="col-4">
+                                            <ul class="actions fit">
+                                                <li>
+                                                    <a href="#" id="plusButton" class="button default large fit cus icon solid fa-caret-up"></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-12">
+                                            <ul class="actions large fit">
+                                                <li>
+                                                    <input type="button" onClick="multiplyBy()" value="Preračunaj" class="primary large fit" />
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-12" id="notesContainer"></div>
                                     </div>
-                                    <div class="col-4">
-                                        <input type="text" name="osebe" id="steviloOseb" value="1" class="cform align-center">
-                                    </div>
-                                    <div class="col-4">
-                                        <ul class="actions fit">
-                                            <li>
-                                                <a href="#" id="plusButton" class="button default large fit cus icon solid fa-caret-up"></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-12">
-                                        <ul class="actions large fit">
-                                            <li>
-                                                <input type="button" onClick="multiplyBy()" value="Preračunaj" class="primary large fit" />
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-12" id="notesContainer"></div>
-                                </div>
-                            </form>
-                        
-                    </div>
-                    <span class="image fit" id="foto"></span>
-                </section>
-
-                <!-- Ingredients and Steps Section -->
-                <section>
-                    <div class="row">
-                        <div class="col-4 col-12-medium">
-                            <h3><u>SESTAVINE</u>:</h3>
-                            <ul class="alt" id="ingredientsList">
-                                <!-- Ingredients dynamically populated here -->
-                            </ul>
+                                </form>
+                            
                         </div>
-                        <div class="col-8 col-12-medium">
-                            <h3><u>POSTOPEK</u>:</h3>
-                            <div class="row">
-                                <div class="col-6 col-12-medium" id="recipeContainer1"></div>
-                                <div class="col-6 col-12-medium" id="recipeContainer2"></div>
+                        <span class="image fit" id="foto"></span>
+                    </section>
+
+                    <!-- Ingredients and Steps Section -->
+                    <section>
+                        <div class="row">
+                            <div class="col-4 col-12-medium">
+                                <h3><u>SESTAVINE</u>:</h3>
+                                <ul class="alt" id="ingredientsList">
+                                    <!-- Ingredients dynamically populated here -->
+                                </ul>
+                            </div>
+                            <div class="col-8 col-12-medium">
+                                <h3><u>POSTOPEK</u>:</h3>
+                                <div class="row">
+                                    <div class="col-6 col-12-medium" id="recipeContainer1"></div>
+                                    <div class="col-6 col-12-medium" id="recipeContainer2"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-                <!-- Section -->
-                <section>
-                    <header class="major">
-                        <h2>OSTALI recepti</h2>
-                    </header>
-                    <div class="button-container"></div><br>
-                    <div id="vsi-recepti" class="posts"></div>
-                </section>
+                    </section>
+                    <!-- Section -->
+                    <section>
+                        <header class="major">
+                            <h2>OSTALI recepti</h2>
+                        </header>
+                        <div class="button-container"></div><br>
+                        <div id="vsi-recepti" class="posts"></div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div id="sidebar">
+                <div class="inner">
+                    <!-- Search -->
+                    <nav id="menu" class="meni">
+                        <header class="major">
+                            <h2>Menu</h2>
+                        </header>
+                        <ul>
+                            <li><a href="index.html">Začetna stran</a></li>
+                            <li><span class="opener">Sladko</span>
+                                <ul id="menu-sladko"></ul>
+                            </li>
+                            <li><span class="opener">Slano</span>
+                                <ul id="menu-slano"></ul>
+                            </li>
+                            <li><span class="opener">Piškoti</span>
+                                <ul id="menu-piskoti"></ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <section>
+                        <header class="major">
+                            <h2>Najpogosteje uporabljeni:</h2>
+                        </header>
+                        <div id="miniPostsContainer" class="mini-posts">
+                        </div>
+                    </section>
+                    <footer id="footer">
+                        <p class="copyright">© 2025 - JVKJ. Vse pravice pridržane.</p>
+                    </footer>
+                </div>
             </div>
         </div>
 
-        <!-- Sidebar -->
-        <div id="sidebar">
-            <div class="inner">
-                <!-- Search -->
-                <nav id="menu">
-                    <header class="major">
-                        <h2>Menu</h2>
-                    </header>
-                    <ul>
-                        <li><a href="index.html">Začetna stran</a></li>
-                        <li><span class="opener">Sladko</span>
-							<ul id="menu-sladko"></ul>
-						</li>
-                        <li><span class="opener">Slano</span>
-							<ul id="menu-slano"></ul>
-						</li>
-                        <li><span class="opener">Piškoti</span>
-							<ul id="menu-piskoti"></ul>
-						</li>
-                    </ul>
-                </nav>
-                <section>
-                    <header class="major">
-                        <h2>Najpogosteje uporabljeni:</h2>
-                    </header>
-                    <div id="miniPostsContainer" class="mini-posts">
-                    </div>
-                </section>
-                <footer id="footer">
-                    <p class="copyright">© 2025 - JVKJ. Vse pravice pridržane.</p>
-                </footer>
-            </div>
-        </div>
-    </div>
+        <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
 
-    <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
-
-</body>
+    </body>
 </html>
