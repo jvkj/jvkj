@@ -25,8 +25,8 @@ const articles = [
         image: "pic01.jpeg",
         alt: "Navadni krhki piškoti",
         description: "Praženi brstični ohrovt v gorčični omaki je popolna mešanica hrustljavosti in bogatega okusa. Kombinacija sladkaste karamelizacije in pikantne gorčice ustvarja jed, ki zna navdušiti tudi tiste, ki sicer niso največji ljubitelji brstičnega ohrovta."
-    },
-    {
+    },*/
+    /*{
         title: "Piškoti - SKALCE",
         link: "brst_oh_gorcicna.html",
         tag: "piškoti",
@@ -35,7 +35,7 @@ const articles = [
         alt: "Skalce",
         description: "Praženi brstični ohrovt v gorčični omaki je popolna mešanica hrustljavosti in bogatega okusa. Kombinacija sladkaste karamelizacije in pikantne gorčice ustvarja jed, ki zna navdušiti tudi tiste, ki sicer niso največji ljubitelji brstičnega ohrovta."
     },*/
-    {
+    /*{
         title: "Piškoti - MEDENJAKI",
         link: "medenjaki.html",
         tag: "piškoti",
@@ -43,7 +43,7 @@ const articles = [
         image: "medenjaki.jpeg",
         alt: "Medenjaki",
         description: "Medenjaki, prežeti z bogatimi aromami cimeta, ingverja in medu, so prava praznična poslastica. Njihova mehka sredica in popolno zapečena skorjica pričarata okusnost, ki jo obožujejo vsi!"
-    },
+    },*/
     {
         title: "Testenine z BROKOLIJEM in PIŠČANCEM",
         link: "test_brokoli_pisc.html",
