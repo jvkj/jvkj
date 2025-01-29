@@ -222,6 +222,11 @@ document.getElementById('plusButton').addEventListener('click', function(e) {
     adjustQuantity(1);
 });
 
+document.querySelectorAll('opis').forEach(function(el) {
+    el.style.fontSize = '0.85em';
+    el.style.lineHeight = '0.4em';
+});
+
 // Initial setup on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateQuantityText();
