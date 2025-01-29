@@ -20,7 +20,7 @@ const articles = [
     /*{
         title: "Piškoti - NAVADNI & KRHKI",
         link: "brst_oh_gorcicna.html",
-        tag: "piškoti",
+        tag: "piskoti",
         fav: "0",
         image: "pic01.jpeg",
         alt: "Navadni krhki piškoti",
@@ -29,7 +29,7 @@ const articles = [
     /*{
         title: "Piškoti - SKALCE",
         link: "brst_oh_gorcicna.html",
-        tag: "piškoti",
+        tag: "piskoti",
         fav: "1",
         image: "pic03.jpeg",
         alt: "Skalce",
@@ -38,7 +38,7 @@ const articles = [
     {
         title: "Piškoti - MEDENJAKI",
         link: "medenjaki.html",
-        tag: "piškoti",
+        tag: "piskoti",
         fav: "1",
         image: "medenjaki.jpeg",
         alt: "Medenjaki",
