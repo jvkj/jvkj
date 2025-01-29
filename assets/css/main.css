@@ -2349,13 +2349,13 @@ input[type="submit"].cus,
     
     /*-----------------*/
     
-   .opis {
-  background-color: #252525; /* Slightly lighter than #151515 */
-  font-size: 80%; /* 20% smaller than the default */
-  line-height: 0.825; /* Halved from the default 1.65 */
-  color: #9fa3a6; /* A bit lighter than default text */
-  display: inline-block;
-  padding: 0.3em 0.5em;
-  border-radius: 0.3em;
-  margin-left: 1em; /* Adds spacing from the image */
+  .opis {
+  background-color: #252525 !important; /* Slightly lighter than #151515 */
+  font-size: 80% !important; /* 20% smaller than the default */
+  line-height: 0.825 !important; /* Halved from the default 1.65 */
+  color: #9fa3a6 !important; /* A bit lighter than default text */
+  display: inline-block !important;
+  padding: 0.3em 0.5em !important;
+  border-radius: 0.3em !important;
+  margin-left: 1em !important; /* Adds spacing from the image */
 }
