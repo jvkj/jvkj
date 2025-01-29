@@ -2349,14 +2349,13 @@ input[type="submit"].cus,
     
     /*-----------------*/
     
-    .opis {
+   .opis {
   background-color: #252525; /* Slightly lighter than #151515 */
-  font-size: 80%; /* 20% smaller than the default 100% */
+  font-size: 80%; /* 20% smaller than the default */
   line-height: 0.825; /* Halved from the default 1.65 */
-  color: #9fa3a6; /* A bit lighter than the default text color */
-  display: block;
-  padding: 0.5em;
+  color: #9fa3a6; /* A bit lighter than default text */
+  display: inline-block;
+  padding: 0.3em 0.5em;
   border-radius: 0.3em;
+  margin-left: 1em; /* Adds spacing from the image */
 }
-    
-    
