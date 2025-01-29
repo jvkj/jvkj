@@ -223,8 +223,9 @@ document.getElementById('plusButton').addEventListener('click', function(e) {
 });
 
 document.querySelectorAll('opis').forEach(function(el) {
-    el.style.fontSize = '0.45em';
-    el.style.lineHeight = '0.2em';
+    el.style.fontSize = '0.85em';
+    el.style.lineHeight = '0.4em';
+    el.style.backgroundColor = '#FFF';
 });
 
 // Initial setup on page load
