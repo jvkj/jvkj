@@ -14,7 +14,8 @@ const quantityPlurals = {
     'žlica': ['žlica', 'žlici', 'žlice', 'žlice', 'žlic'],
     'žlička': ['žlička', 'žlički', 'žličke', 'žličke', 'žličk'],
     'ščepec': ['ščepec', 'ščepca', 'ščepci', 'ščepci', 'ščepcev'],
-    'ščep': ['ščep', 'ščepa', 'ščepi', 'ščepi', 'ščepov']
+    'ščep': ['ščep', 'ščepa', 'ščepi', 'ščepi', 'ščepov'],
+    'strok': ['strok', 'stroka', 'stroki', 'stroki', 'strokov']
 };
 
 // Function to update the displayed quantity in the h3 tag
