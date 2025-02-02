@@ -1,84 +1,25 @@
 
-// Functions for rendering menus, articles, and favorites
-
 function setPageTitle(naslov, zbirka) {
     document.title = `${naslov} - ${zbirka} by JVKJ`;
 }
 
 // Render menu based on tags
 function renderMenu() {
-    const currentPage = window.location.pathname.split('/').pop();
-    const menuContainer = document.querySelector('nav#menu.meni');
-    if (!menuContainer) return;
+    const tags = new Set(articles.map(article => article.tag));
+    const currentPage = window.location.pathname.split('/').pop(); // Get the current page's filename
 
-    // Get unique sorted tags with non-empty submenus
-    const tags = [...new Set(articles.map(article => article.tag))]
-        .sort((a, b) => a.localeCompare(b))
-        .filter(tag => articles.some(article => 
-            article.tag === tag && 
-            article.link !== currentPage
-        ));
-
-    let menuHTML = `
-        <header class="major">
-            <h2>Menu</h2>
-        </header>
-        <ul>`;
-
-    // Add Home link if not on index
-    if (!currentPage.endsWith('index.html')) {
-        menuHTML += `<li><a href="index.html">Začetna stran</a></li>`;
-    }
-
-    // Generate menu items
     tags.forEach(tag => {
-        const capitalizedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
-        menuHTML += `
-            <li>
-                <span class="opener">${capitalizedTag}</span>
-                <ul>`;
-
-        // Add filtered articles sorted by title
-        articles.filter(article => 
-            article.tag === tag && 
-            article.link !== currentPage
-        )
-        .sort((a, b) => a.title.localeCompare(b.title))
-        .forEach(article => {
-            menuHTML += `<li><a href="${article.link}">${article.title}</a></li>`;
-        });
-
-        menuHTML += `</ul></li>`;
-    });
-
-    menuHTML += `</ul>`;
-    menuContainer.innerHTML = menuHTML;
-
-    // Reinitialize menu toggle functionality
-    initMenuToggles();
-}
-
-function initMenuToggles() {
-    $(document).ready(function() {
-        $('.opener').off('click').on('click', function(e) {
-            e.preventDefault();
-            const $this = $(this);
-            const $parentLi = $this.parent();
-            const $submenu = $this.next('ul');
-            
-            // Close all other open submenus
-            $('.opener').not(this).each(function() {
-                const $otherLi = $(this).parent();
-                if ($otherLi.hasClass('active')) {
-                    $otherLi.removeClass('active');
-                    $(this).next('ul').slideUp(200);
+        const menuId = `menu-${tag}`;
+        const menu = document.getElementById(menuId);
+        if (menu) {
+            let html = '';
+            articles.forEach(article => {
+                if (article.tag === tag && article.link !== currentPage) { // Exclude current page
+                    html += `<li><a href="${article.link}">${article.title}</a></li>`;
                 }
             });
-
-            // Toggle current submenu
-            $parentLi.toggleClass('active');
-            $submenu.slideToggle(200);
-        });
+            menu.innerHTML = html;
+        }
     });
 }
 
@@ -105,7 +46,6 @@ function renderFavorites() {
     }
 }
 
-// Render all articles
 function renderArticles() {
     const articlesContainer = document.getElementById('vsi-recepti');
     if (!articlesContainer) return;
@@ -149,7 +89,6 @@ function renderFilterButtons() {
     }
 }
 
-// Filter articles based on the selected tag
 function filterContent(filter) {
     const articlesContainer = document.getElementById('vsi-recepti');
     if (!articlesContainer) return;
@@ -191,7 +130,15 @@ function filterContent(filter) {
     });
 }
 
-// Render photo and text dynamically
+// Usage - moved here right after function definitions
+
+renderMenu();
+renderFavorites();
+renderArticles();
+renderFilterButtons();
+setPageTitle(naslov, zbirka); // Assuming naslov and zbirka are defined somewhere in your scripts
+
+// Additional setup if needed
 function renderPhoto(photo, spanId) {
     const span = document.getElementById(spanId);
     if (span) {
@@ -206,17 +153,8 @@ function renderText(text, spanId) {
     }
 }
 
-// Initial setup on page load
-document.addEventListener('DOMContentLoaded', function() {
-    renderMenu();
-    renderFavorites();
-    renderArticles();
-    renderFilterButtons();
-    setPageTitle(naslov, zbirka); // Assuming naslov and zbirka are defined somewhere in your scripts
-
-    // Call these if you need them based on how your page is structured
-    renderPhoto(photo, 'foto');
-    renderText(naslov, 'naslov-recepti-1');
-    renderText(naslov, 'naslov-recepti-2');
-    renderText(zbirka, 'zbirka-recepti');
-});
+// Call these if you need them based on how your page is structured
+renderPhoto(photo, 'foto');
+renderText(naslov, 'naslov-recepti-1');
+renderText(naslov, 'naslov-recepti-2');
+renderText(zbirka, 'zbirka-recepti');
