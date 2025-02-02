@@ -47,7 +47,7 @@ const articles = [
     {
         title: "Testenine z BROKOLIJEM in PIŠČANCEM",
         link: "test_brokoli_pisc.html",
-        tag: "slano",
+        tag: "testenine",
         fav: "0",
         image: "test_brokoli_pisc.jpeg",
         alt: "Testenine z brokolijem in piščancem",
