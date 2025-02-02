@@ -36,7 +36,7 @@ function renderMenu() {
         menuHTML += `
             <li>
                 <span class="opener">${capitalizedTag}</span>
-                <ul style="display: none;">`;  // Start with submenus closed
+                <ul style="display: none;">`;
 
         // Add filtered articles sorted by title
         articles.filter(article => 
@@ -59,26 +59,34 @@ function renderMenu() {
 }
 
 function initMenuToggles() {
-    // Remove any existing click handlers
-    $('.opener').off('click');
-
-    // Add new click handler with proper event delegation
-    $(document).on('click', '.opener', function(e) {
+    // Use event delegation for dynamic elements
+    $(document).off('click', '.opener').on('click', '.opener', function(e) {
         e.preventDefault();
         const $this = $(this);
-        const $parentLi = $this.parent();
+        const $parent = $this.parent('li');
         const $submenu = $this.next('ul');
+        const $allOpeners = $('.opener');
         
-        // Close all other submenus
-        $('.opener').not(this).each(function() {
-            const $otherLi = $(this).parent();
-            $otherLi.removeClass('active');
-            $(this).next('ul').slideUp(200);
+        // Close all other menus
+        $allOpeners.not($this).each(function() {
+            const $otherParent = $(this).parent('li');
+            if ($otherParent.hasClass('active')) {
+                $otherParent.removeClass('active');
+                $(this).next('ul').slideUp(200);
+            }
         });
 
-        // Toggle current submenu
-        $parentLi.toggleClass('active');
-        $submenu.slideToggle(200);
+        // Toggle current menu
+        $parent.toggleClass('active');
+        $submenu.stop(true, true).slideToggle(200);
+    });
+
+    // Close all submenus when clicking outside
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('nav#menu').length) {
+            $('.opener').parent('li').removeClass('active');
+            $('.opener').next('ul').slideUp(200);
+        }
     });
 }
 
