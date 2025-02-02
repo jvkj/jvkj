@@ -2349,3 +2349,17 @@ input[type="submit"].cus,
     
     /*-----------------*/
     
+/* Ensure proper menu behavior */
+#menu li.active > ul {
+    display: block !important;
+}
+
+#menu li > ul {
+    display: none;
+}
+
+/* Add cursor pointer for openers */
+#menu .opener {
+    cursor: pointer;
+    user-select: none;
+}
