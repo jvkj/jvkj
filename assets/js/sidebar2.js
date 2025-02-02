@@ -36,7 +36,7 @@ function renderMenu() {
         menuHTML += `
             <li>
                 <span class="opener">${capitalizedTag}</span>
-                <ul>`;
+                <ul style="display: none;">`;  // Start with submenus closed
 
         // Add filtered articles sorted by title
         articles.filter(article => 
@@ -59,26 +59,26 @@ function renderMenu() {
 }
 
 function initMenuToggles() {
-    $(document).ready(function() {
-        $('.opener').off('click').on('click', function(e) {
-            e.preventDefault();
-            const $this = $(this);
-            const $parentLi = $this.parent();
-            const $submenu = $this.next('ul');
-            
-            // Close all other open submenus
-            $('.opener').not(this).each(function() {
-                const $otherLi = $(this).parent();
-                if ($otherLi.hasClass('active')) {
-                    $otherLi.removeClass('active');
-                    $(this).next('ul').slideUp(200);
-                }
-            });
+    // Remove any existing click handlers
+    $('.opener').off('click');
 
-            // Toggle current submenu
-            $parentLi.toggleClass('active');
-            $submenu.slideToggle(200);
+    // Add new click handler with proper event delegation
+    $(document).on('click', '.opener', function(e) {
+        e.preventDefault();
+        const $this = $(this);
+        const $parentLi = $this.parent();
+        const $submenu = $this.next('ul');
+        
+        // Close all other submenus
+        $('.opener').not(this).each(function() {
+            const $otherLi = $(this).parent();
+            $otherLi.removeClass('active');
+            $(this).next('ul').slideUp(200);
         });
+
+        // Toggle current submenu
+        $parentLi.toggleClass('active');
+        $submenu.slideToggle(200);
     });
 }
 
