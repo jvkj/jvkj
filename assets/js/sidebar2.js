@@ -23,7 +23,7 @@ function renderMenu() {
         <header class="major">
             <h2>Menu</h2>
         </header>
-        <ul class="links">`;  // Added 'links' class for theme compatibility
+        <ul>`;
 
     // Add Home link if not on index
     if (!currentPage.endsWith('index.html')) {
@@ -35,7 +35,7 @@ function renderMenu() {
         const capitalizedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
         menuHTML += `
             <li>
-                <span class="opener">${capitalizedTag}<span class="fa fa-angle-down" style="float: right"></span></span>
+                <span class="opener">${capitalizedTag}</span>
                 <ul>`;
 
         // Add filtered articles sorted by title
@@ -54,51 +54,31 @@ function renderMenu() {
     menuHTML += `</ul>`;
     menuContainer.innerHTML = menuHTML;
 
-    // Initialize menu interactions
-    initMenuInteractions();
+    // Reinitialize menu toggle functionality
+    initMenuToggles();
 }
 
-function initMenuInteractions() {
-    // Remove existing handlers to prevent duplicates
-    $(document).off('click', '.opener');
-    
-    // Initialize menu toggles with proper animation
-    $('.opener').each(function() {
-        const $this = $(this);
-        const $parent = $this.parent();
-        const $submenu = $this.next('ul');
-        
-        // Initialize state
-        $submenu.hide().data('shown', false);
-        
-        $this.on('click', function(e) {
+function initMenuToggles() {
+    $(document).ready(function() {
+        $('.opener').off('click').on('click', function(e) {
             e.preventDefault();
-            const $allOpeners = $('.opener');
+            const $this = $(this);
+            const $parentLi = $this.parent();
+            const $submenu = $this.next('ul');
             
-            // Close all other menus
-            $allOpeners.not(this).each(function() {
-                const $otherSubmenu = $(this).next('ul');
-                $otherSubmenu.slideUp(200);
-                $(this).find('.fa').removeClass('fa-angle-up').addClass('fa-angle-down');
+            // Close all other open submenus
+            $('.opener').not(this).each(function() {
+                const $otherLi = $(this).parent();
+                if ($otherLi.hasClass('active')) {
+                    $otherLi.removeClass('active');
+                    $(this).next('ul').slideUp(200);
+                }
             });
 
-            // Toggle current menu
-            $submenu.stop(true, true).slideToggle(200, function() {
-                $submenu.data('shown', $(this).is(':visible'));
-            });
-            
-            // Rotate arrow icon
-            $this.find('.fa')
-                .toggleClass('fa-angle-down fa-angle-up');
+            // Toggle current submenu
+            $parentLi.toggleClass('active');
+            $submenu.slideToggle(200);
         });
-    });
-
-    // Close menus when clicking outside
-    $(document).on('click', function(e) {
-        if (!$(e.target).closest('nav#menu').length) {
-            $('.opener').next('ul').slideUp(200);
-            $('.opener .fa').removeClass('fa-angle-up').addClass('fa-angle-down');
-        }
     });
 }
 
