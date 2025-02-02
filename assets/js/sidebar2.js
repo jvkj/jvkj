@@ -11,9 +11,13 @@ function renderMenu() {
     const menuContainer = document.querySelector('nav#menu.meni');
     if (!menuContainer) return;
 
-    // Get unique sorted tags
+    // Get unique sorted tags with non-empty submenus
     const tags = [...new Set(articles.map(article => article.tag))]
-        .sort((a, b) => a.localeCompare(b));
+        .sort((a, b) => a.localeCompare(b))
+        .filter(tag => articles.some(article => 
+            article.tag === tag && 
+            article.link !== currentPage
+        ));
 
     let menuHTML = `
         <header class="major">
@@ -49,6 +53,34 @@ function renderMenu() {
 
     menuHTML += `</ul>`;
     menuContainer.innerHTML = menuHTML;
+
+    // Reinitialize menu toggle functionality
+    initMenuToggles();
+}
+
+function initMenuToggles() {
+    // jQuery version (since the template uses jQuery)
+    $(document).ready(function() {
+        $('.opener').off('click').on('click', function(e) {
+            e.preventDefault();
+            const $this = $(this);
+            $this.parent().toggleClass('active');
+            $this.next('ul').slideToggle(200);
+        });
+    });
+
+    // Alternatively, vanilla JS version:
+    /*
+    document.querySelectorAll('.opener').forEach(opener => {
+        opener.addEventListener('click', function(e) {
+            e.preventDefault();
+            const parentLi = this.closest('li');
+            const submenu = this.nextElementSibling;
+            parentLi.classList.toggle('active');
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+    */
 }
 
 // Render favorite articles
