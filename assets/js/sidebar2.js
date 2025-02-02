@@ -23,7 +23,7 @@ function renderMenu() {
         <header class="major">
             <h2>Menu</h2>
         </header>
-        <ul>`;
+        <ul class="links">`;  // Added 'links' class for theme compatibility
 
     // Add Home link if not on index
     if (!currentPage.endsWith('index.html')) {
@@ -35,8 +35,8 @@ function renderMenu() {
         const capitalizedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
         menuHTML += `
             <li>
-                <span class="opener">${capitalizedTag}</span>
-                <ul style="display: none;">`;
+                <span class="opener">${capitalizedTag}<span class="fa fa-angle-down" style="float: right"></span></span>
+                <ul>`;
 
         // Add filtered articles sorted by title
         articles.filter(article => 
@@ -54,65 +54,52 @@ function renderMenu() {
     menuHTML += `</ul>`;
     menuContainer.innerHTML = menuHTML;
 
-    // Reinitialize menu toggle functionality
-    initMenuToggles();
+    // Initialize menu interactions
+    initMenuInteractions();
 }
 
-function initMenuToggles() {
-    // Use event delegation for dynamic elements
-    $(document).off('click', '.opener').on('click', '.opener', function(e) {
-        e.preventDefault();
+function initMenuInteractions() {
+    // Remove existing handlers to prevent duplicates
+    $(document).off('click', '.opener');
+    
+    // Initialize menu toggles with proper animation
+    $('.opener').each(function() {
         const $this = $(this);
-        const $parent = $this.parent('li');
+        const $parent = $this.parent();
         const $submenu = $this.next('ul');
-        const $allOpeners = $('.opener');
         
-        // Close all other menus
-        $allOpeners.not($this).each(function() {
-            const $otherParent = $(this).parent('li');
-            if ($otherParent.hasClass('active')) {
-                $otherParent.removeClass('active');
-                $(this).next('ul').slideUp(200);
-            }
-        });
+        // Initialize state
+        $submenu.hide().data('shown', false);
+        
+        $this.on('click', function(e) {
+            e.preventDefault();
+            const $allOpeners = $('.opener');
+            
+            // Close all other menus
+            $allOpeners.not(this).each(function() {
+                const $otherSubmenu = $(this).next('ul');
+                $otherSubmenu.slideUp(200);
+                $(this).find('.fa').removeClass('fa-angle-up').addClass('fa-angle-down');
+            });
 
-        // Toggle current menu
-        $parent.toggleClass('active');
-        $submenu.stop(true, true).slideToggle(200);
+            // Toggle current menu
+            $submenu.stop(true, true).slideToggle(200, function() {
+                $submenu.data('shown', $(this).is(':visible'));
+            });
+            
+            // Rotate arrow icon
+            $this.find('.fa')
+                .toggleClass('fa-angle-down fa-angle-up');
+        });
     });
 
-    // Close all submenus when clicking outside
+    // Close menus when clicking outside
     $(document).on('click', function(e) {
         if (!$(e.target).closest('nav#menu').length) {
-            $('.opener').parent('li').removeClass('active');
             $('.opener').next('ul').slideUp(200);
+            $('.opener .fa').removeClass('fa-angle-up').addClass('fa-angle-down');
         }
     });
-}
-
-function initMenuToggles() {
-    // jQuery version (since the template uses jQuery)
-    $(document).ready(function() {
-        $('.opener').off('click').on('click', function(e) {
-            e.preventDefault();
-            const $this = $(this);
-            $this.parent().toggleClass('active');
-            $this.next('ul').slideToggle(200);
-        });
-    });
-
-    // Alternatively, vanilla JS version:
-    /*
-    document.querySelectorAll('.opener').forEach(opener => {
-        opener.addEventListener('click', function(e) {
-            e.preventDefault();
-            const parentLi = this.closest('li');
-            const submenu = this.nextElementSibling;
-            parentLi.classList.toggle('active');
-            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-        });
-    });
-    */
 }
 
 // Render favorite articles
