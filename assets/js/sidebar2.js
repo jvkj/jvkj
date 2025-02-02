@@ -59,6 +59,30 @@ function renderMenu() {
 }
 
 function initMenuToggles() {
+    $(document).ready(function() {
+        $('.opener').off('click').on('click', function(e) {
+            e.preventDefault();
+            const $this = $(this);
+            const $parentLi = $this.parent();
+            const $submenu = $this.next('ul');
+            
+            // Close all other open submenus
+            $('.opener').not(this).each(function() {
+                const $otherLi = $(this).parent();
+                if ($otherLi.hasClass('active')) {
+                    $otherLi.removeClass('active');
+                    $(this).next('ul').slideUp(200);
+                }
+            });
+
+            // Toggle current submenu
+            $parentLi.toggleClass('active');
+            $submenu.slideToggle(200);
+        });
+    });
+}
+
+function initMenuToggles() {
     // jQuery version (since the template uses jQuery)
     $(document).ready(function() {
         $('.opener').off('click').on('click', function(e) {
