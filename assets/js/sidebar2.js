@@ -7,14 +7,13 @@ function setPageTitle(naslov, zbirka) {
 
 // Render menu based on tags
 function renderMenu() {
-    const menuContainer = document.getElementById('menu');
+    const currentPage = window.location.pathname.split('/').pop();
+    const menuContainer = document.querySelector('nav#menu.meni');
     if (!menuContainer) return;
 
-    const currentPage = window.location.pathname.split('/').pop(); // Get the current page's filename
-    const isIndexPage = currentPage === 'index.html'; // Check if the current page is index.html
-
-    // Get unique tags from articles and sort them alphabetically
-    const tags = [...new Set(articles.map(article => article.tag))].sort((a, b) => a.localeCompare(b));
+    // Get unique sorted tags
+    const tags = [...new Set(articles.map(article => article.tag))]
+        .sort((a, b) => a.localeCompare(b));
 
     let menuHTML = `
         <header class="major">
@@ -22,36 +21,33 @@ function renderMenu() {
         </header>
         <ul>`;
 
-    // Add "Začetna stran" link only if not on index.html
-    if (!isIndexPage) {
+    // Add Home link if not on index
+    if (!currentPage.endsWith('index.html')) {
         menuHTML += `<li><a href="index.html">Začetna stran</a></li>`;
     }
 
-    // Generate menu items for each tag
+    // Generate menu items
     tags.forEach(tag => {
+        const capitalizedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
         menuHTML += `
             <li>
-                <span class="opener">${tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
+                <span class="opener">${capitalizedTag}</span>
                 <ul>`;
 
-        // Filter articles by tag and exclude the current page
-        const filteredArticles = articles
-            .filter(article => article.tag === tag && article.link !== currentPage)
-            .sort((a, b) => a.title.localeCompare(b.title)); // Sort articles alphabetically
-
-        // Generate submenu items for each article
-        filteredArticles.forEach(article => {
+        // Add filtered articles sorted by title
+        articles.filter(article => 
+            article.tag === tag && 
+            article.link !== currentPage
+        )
+        .sort((a, b) => a.title.localeCompare(b.title))
+        .forEach(article => {
             menuHTML += `<li><a href="${article.link}">${article.title}</a></li>`;
         });
 
-        menuHTML += `
-                </ul>
-            </li>`;
+        menuHTML += `</ul></li>`;
     });
 
     menuHTML += `</ul>`;
-
-    // Set the inner HTML of the menu container
     menuContainer.innerHTML = menuHTML;
 }
 
