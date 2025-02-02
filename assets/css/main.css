@@ -2349,36 +2349,3 @@ input[type="submit"].cus,
     
     /*-----------------*/
     
-/* Menu interactions 
-#menu .opener {
-    cursor: pointer;
-    position: relative;
-    display: block;
-    user-select: none;
-}
-
-#menu .opener .fa {
-    transition: transform 0.3s ease;
-}
-
-#menu ul ul {
-    padding-left: 1em !important;
-    margin: 0.5em 0 !important;
-}
-
-#menu li {
-    position: relative;
-}
-
-#menu li.active > ul {
-    display: block !important;
-}
-
-#menu .opener + ul {
-    display: none;
-}
-
-#menu .opener + ul li {
-    padding-left: 1em;
-    border-left: 2px solid rgba(210, 215, 217, 0.3);
-}
