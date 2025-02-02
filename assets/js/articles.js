@@ -38,7 +38,7 @@ const articles = [
     {
         title: "Piškoti - MEDENJAKI",
         link: "medenjaki.html",
-        tag: "piskoti",
+        tag: "piškoti",
         fav: "1",
         image: "medenjaki.jpeg",
         alt: "Medenjaki",
