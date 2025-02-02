@@ -48,7 +48,7 @@ const articles = [
         title: "Testenine z BROKOLIJEM in PIŠČANCEM",
         link: "test_brokoli_pisc.html",
         tag: "slano",
-        fav: "1",
+        fav: "0",
         image: "test_brokoli_pisc.jpeg",
         alt: "Testenine z brokolijem in piščancem",
         description: "Kremaste testenine s piščancem in brokolijem združuje nežne testenine z bogato omako, polno okusov. Sočni koščki piščanca in brokoli ustvarjajo popolno harmonijo za okusno in nasitno kosilo."
