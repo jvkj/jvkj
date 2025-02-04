@@ -16,6 +16,14 @@ const quantityPlurals = {
     'strok': ['strok', 'stroka', 'stroki', 'stroki', 'strokov']
 };
 
+// Helper function to format numbers
+function formatDecimal(number) {
+    return Number.isInteger(number) ? 
+        number.toString() : 
+        parseFloat(number.toFixed(1)).toString();
+}
+
+// Function to update the displayed quantity in the h3 tag
 function updateQuantityText() {
     const quantityElement = document.getElementById('naslovKolicina');
     if (quantityElement) {
@@ -23,166 +31,206 @@ function updateQuantityText() {
     }
 }
 
+// Function to handle plural forms with decimal support
 function adjustPlural(number, itemName) {
     const isQuantity = itemName in quantityPlurals;
     const plurals = isQuantity ? quantityPlurals[itemName] : foodPlurals[itemName];
     
     if (plurals) {
-        return number >= 1 && number <= 5 ? plurals[number - 1] : plurals[4];
+        // Handle decimal values for quantity terms
+        if (isQuantity && !Number.isInteger(number)) {
+            return plurals[4];
+        }
+        
+        const integerValue = Math.floor(number);
+        if (integerValue >= 1 && integerValue <= 5) {
+            return plurals[integerValue - 1];
+        }
+        return plurals[4];
     }
     return itemName;
 }
 
+// Function to distribute steps into two columns
 function distributeSteps(steps) {
     const container1 = document.getElementById('recipeContainer1');
     const container2 = document.getElementById('recipeContainer2');
     if (!container1 || !container2) return;
 
     const halfLength = Math.ceil(steps.length / 2);
-    container1.innerHTML = steps.slice(0, halfLength).map(s => `<p>${s}</p>`).join('');
-    container2.innerHTML = steps.slice(halfLength).map(s => `<p>${s}</p>`).join('');
+    const leftColumn = steps.slice(0, halfLength);
+    const rightColumn = steps.slice(halfLength);
+
+    container1.innerHTML = leftColumn.map(s => `<p>${s}</p>`).join('');
+    container2.innerHTML = rightColumn.map(s => `<p>${s}</p>`).join('');
 }
 
+// Main recipe update function
 function updateRecipe(quantity) {
     const ingredientsList = document.getElementById('ingredientsList');
     if (!ingredientsList) return;
 
     let html = '';
     for (const [ingredient, grams] of Object.entries(sestavine)) {
-        let adjusted = grams * quantity;
-        let isQuantity = false;
-
-        // Handle quantity-based ingredients (žlica, žlička etc.)
-        for (const qTerm of Object.keys(quantityPlurals)) {
-            if (ingredient.startsWith(qTerm + ' ')) {
-                const [qType, ...rest] = ingredient.split(' ');
-                const actualIngredient = rest.join(' ');
-                const rounded = Math.max(1, Math.round(adjusted));
-                html += `<li><strong>${rounded}</strong> ${adjustPlural(rounded, qType)} ${actualIngredient}</li>`;
-                isQuantity = true;
+        const isDecimal = sestavineDecimal.includes(ingredient);
+        const adjustedQuantity = grams * quantity;
+        let displayQuantity = isDecimal ? 
+            parseFloat(adjustedQuantity.toFixed(1)) : 
+            Math.round(adjustedQuantity);
+        
+        let isQuantityTerm = false;
+        
+        // Handle quantity-based ingredients
+        for (const quantityTerm of Object.keys(quantityPlurals)) {
+            if (ingredient.startsWith(quantityTerm + ' ')) {
+                isQuantityTerm = true;
+                const parts = ingredient.split(' ');
+                const quantityType = parts[0];
+                const actualIngredient = parts.slice(1).join(' ');
+                
+                const formattedQuantity = formatDecimal(displayQuantity);
+                const adjustedText = adjustPlural(displayQuantity, quantityType);
+                html += `<li><strong>${formattedQuantity}</strong> ${adjustedText} ${actualIngredient}</li>`;
                 break;
             }
         }
 
-        if (!isQuantity) {
+        if (!isQuantityTerm) {
+            const formattedQuantity = formatDecimal(displayQuantity);
+            
             if (ingredient in foodPlurals) {
-                const rounded = Math.max(1, Math.round(adjusted));
-                html += `<li><strong>${rounded}</strong> ${adjustPlural(rounded, ingredient)}</li>`;
+                const adjustedText = adjustPlural(displayQuantity, ingredient);
+                html += `<li><strong>${formattedQuantity}</strong> ${adjustedText}</li>`;
             } else {
-                let display, unit;
-                if (sestavineDecimal.includes(ingredient)) {
-                    display = adjusted.toFixed(1);
-                    unit = sestavineMl.includes(ingredient) ? 'ml' : 'g';
-                } else {
-                    display = Math.round(adjusted);
-                    unit = sestavineMl.includes(ingredient) ? 'ml' : 'g';
-                }
-                html += `<li><strong>${display}</strong>${unit} ${ingredient}</li>`;
+                const unit = sestavineMl.includes(ingredient) ? 'ml' : 'g';
+                html += `<li><strong>${formattedQuantity}</strong>${unit} ${ingredient}</li>`;
             }
         }
     }
     ingredientsList.innerHTML = html;
 
     // Update recipe steps
-    const steps = postopek.map(step => {
-        return Object.entries(sestavine).reduce((currentStep, [ingredient, grams]) => {
+    let steps = [];
+    for (let step of postopek) {
+        for (const [ingredient, grams] of Object.entries(sestavine)) {
             const classname = ingredient.replace(/\s/g, '_');
-            const adjusted = grams * quantity;
-            const regex = new RegExp(`<strong class="ingredient-quantity ${classname}">([^<]+)<\/strong>`, 'g');
+            const isDecimal = sestavineDecimal.includes(ingredient);
+            let adjustedQuantity = grams * quantity;
+            let displayValue = isDecimal ? 
+                parseFloat(adjustedQuantity.toFixed(1)) : 
+                Math.round(adjustedQuantity);
+            
+            const formattedQuantity = formatDecimal(displayValue);
 
             if (ingredient.split(' ')[0] in quantityPlurals) {
-                const [qType, ...rest] = ingredient.split(' ');
-                const actual = rest.join(' ');
-                const rounded = Math.max(1, Math.round(adjusted));
-                return currentStep.replace(regex, `<strong>${rounded} ${adjustPlural(rounded, qType)} ${actual}</strong>`);
-            }
-            
-            if (ingredient in foodPlurals) {
-                const rounded = Math.max(1, Math.round(adjusted));
-                return currentStep.replace(regex, `<strong>${rounded} ${adjustPlural(rounded, ingredient)}</strong>`);
-            }
-
-            let display, unit;
-            if (sestavineDecimal.includes(ingredient)) {
-                display = adjusted.toFixed(1);
-                unit = sestavineMl.includes(ingredient) ? 'ml' : 'g';
+                const parts = ingredient.split(' ');
+                const quantityType = parts[0];
+                const actualIngredient = parts.slice(1).join(' ');
+                const adjustedText = adjustPlural(displayValue, quantityType);
+                
+                step = step.replace(
+                    new RegExp(`<strong class="ingredient-quantity ${classname}">([^<]+)<\/strong>`, 'g'),
+                    `<strong>${formattedQuantity} ${adjustedText} ${actualIngredient}</strong>`
+                );
+            } else if (ingredient in foodPlurals) {
+                const adjustedText = adjustPlural(displayValue, ingredient);
+                step = step.replace(
+                    new RegExp(`<strong class="ingredient-quantity ${classname}">([^<]+)<\/strong>`, 'g'),
+                    `<strong>${formattedQuantity} ${adjustedText}</strong>`
+                );
             } else {
-                display = Math.round(adjusted);
-                unit = sestavineMl.includes(ingredient) ? 'ml' : 'g';
+                const unit = sestavineMl.includes(ingredient) ? 'ml' : 'g';
+                step = step.replace(
+                    new RegExp(`<strong class="ingredient-quantity ${classname}">([^<]+)<\/strong>`, 'g'),
+                    `<strong>${formattedQuantity}${unit} ${ingredient}</strong>`
+                );
             }
-            return currentStep.replace(regex, `<strong>${display}${unit} ${ingredient}</strong>`);
-        }, step);
-    });
-
+        }
+        steps.push(step);
+    }
     distributeSteps(steps);
 }
 
+// Quantity adjustment functions
 function adjustQuantity(adjustment) {
-    const input = document.getElementById('steviloOseb');
-    let qty = Math.max(1, parseInt(input.value) + adjustment);
-    input.value = qty;
+    const quantityInput = document.getElementById('steviloOseb');
+    let currentQuantity = parseInt(quantityInput.value);
+    currentQuantity = Math.max(1, currentQuantity + adjustment);
+    quantityInput.value = currentQuantity;
     updateQuantityText();
 }
 
+// Time calculation function
 function updateTime(quantity) {
-    const formatTime = time => {
-        if (!time) return null;
+    let cas1Total = cas1Adjust ? cas1 * quantity : cas1;
+    let cas2Total = cas2Adjust ? cas2 * quantity : cas2;
+    let cas3Total = cas3Adjust ? cas3 * quantity : cas3;
+    
+    const formatTime = (time) => {
+        if (time === 0) return null;
         if (time >= 60) {
             const hours = Math.floor(time / 60);
-            const mins = time % 60;
-            return mins ? `${hours}h ${mins}min` : `${hours}h`;
+            const minutes = time % 60;
+            return minutes === 0 ? `${hours}h` : `${hours}h ${minutes}min`;
         }
         return `${time}min`;
     };
 
-    const calculateTime = (base, adjust) => adjust ? base * quantity : base;
-    
-    const times = [cas1, cas2, cas3].map((t, i) => 
-        formatTime(calculateTime(t, [cas1Adjust, cas2Adjust, cas3Adjust][i]))
-    );
+    cas1Total = formatTime(cas1Total);
+    cas2Total = formatTime(cas2Total);
+    cas3Total = formatTime(cas3Total);
 
-    const totalTime = formatTime([cas1, cas2, cas3].reduce((acc, t, i) => 
-        acc + calculateTime(t, [cas1Adjust, cas2Adjust, cas3Adjust][i]), 0));
+    let skupniCas = (cas1Adjust ? cas1 * quantity : cas1) + 
+                    (cas2Adjust ? cas2 * quantity : cas2) + 
+                    (cas3Adjust ? cas3 * quantity : cas3);
+    skupniCas = formatTime(skupniCas);
 
     const timeElement = document.getElementById('prepTime');
     if (timeElement) {
+        let timeListItems = '';
+        if (cas1Total !== null) timeListItems += `<li>${cas1Name}: <strong><em>${cas1Total}</em></strong></li>`;
+        if (cas2Total !== null) timeListItems += `<li>${cas2Name}: <strong><em>${cas2Total}</em></strong></li>`;
+        if (cas3Total !== null) timeListItems += `<li>${cas3Name}: <strong><em>${cas3Total}</em></strong></li>`;
+
         timeElement.innerHTML = `
-            <h3><u>${skupniCasName}</u>: <strong><em>${totalTime}</em></strong></h3>
+            <h3><u>${skupniCasName}</u>: <strong><em>${skupniCas}</em></strong></h3>
             <ul class="alt">
-                ${times.map((t, i) => t ? `<li>${[cas1Name, cas2Name, cas3Name][i]}: <strong><em>${t}</em></strong></li>` : '').join('')}
+                ${timeListItems}
             </ul>
         `;
     }
 }
 
+// Calculation trigger
 function multiplyBy() {
     const quantity = parseInt(document.getElementById('steviloOseb').value);
     updateRecipe(quantity);
     updateTime(quantity);
 }
 
+// Notes rendering
 function renderNotes(notes) {
-    const container = document.getElementById('notesContainer');
-    if (container) {
-        container.innerHTML = notes !== "0" 
+    const notesContainer = document.getElementById('notesContainer');
+    if (notesContainer) {
+        notesContainer.innerHTML = notes !== "0" 
             ? `<br><div class="box"><center>* - <em><u>${notes}</u></em></center></div>`
             : '';
     }
 }
 
 // Event listeners
-document.getElementById('minusButton').addEventListener('click', e => {
+document.getElementById('minusButton').addEventListener('click', function(e) {
     e.preventDefault();
     adjustQuantity(-1);
 });
 
-document.getElementById('plusButton').addEventListener('click', e => {
+document.getElementById('plusButton').addEventListener('click', function(e) {
     e.preventDefault();
     adjustQuantity(1);
 });
 
-// Initialization
-document.addEventListener('DOMContentLoaded', () => {
+// Initial setup
+document.addEventListener('DOMContentLoaded', function() {
     updateQuantityText();
     updateRecipe(zacetnaKolicina);
     updateTime(zacetnaKolicina);
