@@ -1,5 +1,3 @@
-// custom.js
-
 // Constants for ingredient plural forms
 const foodPlurals = {
     'jajce': ['jajce', 'jajci', 'jajca', 'jajca', 'jajc'],
@@ -17,6 +15,9 @@ const quantityPlurals = {
     'ščep': ['ščep', 'ščepa', 'ščepi', 'ščepi', 'ščepov'],
     'strok': ['strok', 'stroka', 'stroki', 'stroki', 'strokov']
 };
+
+// Ingredients that should use milliliters instead of grams
+//const sestavineMl = ['mleko', 'voda', 'olje']; // Add your milliliter ingredients here
 
 // Function to update the displayed quantity in the h3 tag
 function updateQuantityText() {
@@ -72,13 +73,14 @@ function updateRecipe(quantity) {
         for (const quantityTerm of Object.keys(quantityPlurals)) {
             if (ingredient.startsWith(quantityTerm + ' ')) {
                 isQuantity = true;
-                let [quantityType, actualIngredient] = ingredient.split(' ', 2);
-                ingredientName = actualIngredient; // Now we have only the ingredient name
+                const parts = ingredient.split(' ');
+                const quantityType = parts[0];
+                const actualIngredient = parts.slice(1).join(' '); // Handle multi-word ingredients
                 let roundedQuantity = Math.max(1, Math.round(adjustedQuantity));
                 
                 let adjustedText = adjustPlural(roundedQuantity, quantityType);
                 
-                html += `<li><strong>${roundedQuantity}</strong> ${adjustedText} ${ingredientName}</li>`;
+                html += `<li><strong>${roundedQuantity}</strong> ${adjustedText} ${actualIngredient}</li>`;
                 break;
             }
         }
@@ -87,14 +89,13 @@ function updateRecipe(quantity) {
             // Check if the ingredient is one of our special food items
             if (ingredient in foodPlurals) {
                 let roundedQuantity = Math.max(1, Math.round(adjustedQuantity));
-                
                 let adjustedText = adjustPlural(roundedQuantity, ingredient);
-                
                 html += `<li><strong>${roundedQuantity}</strong> ${adjustedText}</li>`;
             } else {
-                // For other ingredients, round to whole number for grams
+                // Determine unit and format display
                 let displayQuantity = Math.round(adjustedQuantity);
-                html += `<li><strong>${displayQuantity}</strong>g ${ingredientName}</li>`;
+                let unit = sestavineMl.includes(ingredient) ? 'ml' : 'g';
+                html += `<li><strong>${displayQuantity}</strong>${unit} ${ingredientName}</li>`;
             }
         }
     }
@@ -108,36 +109,49 @@ function updateRecipe(quantity) {
             let adjustedQuantity = (grams * quantity);
             let classname = ingredient.replace(/\s/g, '_');
             
-            if (ingredient in quantityPlurals || ingredient.split(' ')[0] in quantityPlurals) {
-                let quantityType = ingredient.split(' ')[0];
-                let actualIngredient = ingredient.split(' ')[1] || '';
+            // Handle quantity-based ingredients
+            if (ingredient.split(' ')[0] in quantityPlurals) {
+                const parts = ingredient.split(' ');
+                const quantityType = parts[0];
+                const actualIngredient = parts.slice(1).join(' ');
                 let roundedQuantity = Math.max(1, Math.round(adjustedQuantity));
-                
                 let adjustedText = adjustPlural(roundedQuantity, quantityType);
                 
-                step = step.replace(new RegExp(`<strong class="ingredient-quantity ${classname}">\\s*${ingredient}\\s*<\/strong>`, 'g'), `<strong>${roundedQuantity} ${adjustedText} ${actualIngredient}</strong>`);
-            } else if (ingredient in foodPlurals) {
+                step = step.replace(
+                    new RegExp(`<strong class="ingredient-quantity ${classname}">([^<]+)<\/strong>`, 'g'),
+                    `<strong>${roundedQuantity} ${adjustedText} ${actualIngredient}</strong>`
+                );
+            }
+            // Handle food plural ingredients
+            else if (ingredient in foodPlurals) {
                 let roundedQuantity = Math.max(1, Math.round(adjustedQuantity));
                 let adjustedText = adjustPlural(roundedQuantity, ingredient);
-                
-                step = step.replace(new RegExp(`<strong class="ingredient-quantity ${classname}">\\s*${ingredient}\\s*<\/strong>`, 'g'), `<strong>${roundedQuantity} ${adjustedText}</strong>`);
-            } else {
-                // Round grams for other ingredients
+                step = step.replace(
+                    new RegExp(`<strong class="ingredient-quantity ${classname}">([^<]+)<\/strong>`, 'g'),
+                    `<strong>${roundedQuantity} ${adjustedText}</strong>`
+                );
+            }
+            // Handle regular ingredients with ml/g
+            else {
                 let displayQuantity = Math.round(adjustedQuantity);
-                step = step.replace(new RegExp(`<strong class="ingredient-quantity ${classname}">\\s*${ingredient}\\s*<\/strong>`, 'g'), `<strong>${displayQuantity}g ${ingredient}</strong>`);
+                let unit = sestavineMl.includes(ingredient) ? 'ml' : 'g';
+                step = step.replace(
+                    new RegExp(`<strong class="ingredient-quantity ${classname}">([^<]+)<\/strong>`, 'g'),
+                    `<strong>${displayQuantity}${unit} ${ingredient}</strong>`
+                );
             }
         }
-        steps.push(step); // Collect adjusted steps into an array
+        steps.push(step);
     }
     
-    distributeSteps(steps); // Distribute steps into two columns
+    distributeSteps(steps);
 }
 
 // Function to handle quantity increase/decrease
 function adjustQuantity(adjustment) {
     const quantityInput = document.getElementById('steviloOseb');
     let currentQuantity = parseInt(quantityInput.value);
-    currentQuantity = Math.max(1, currentQuantity + adjustment); // Ensure it doesn't go below 1
+    currentQuantity = Math.max(1, currentQuantity + adjustment);
     quantityInput.value = currentQuantity;
     updateQuantityText();
 }
@@ -148,19 +162,12 @@ function updateTime(quantity) {
     let cas2Total = cas2Adjust ? cas2 * quantity : cas2;
     let cas3Total = cas3Adjust ? cas3 * quantity : cas3;
     
-    // Convert to hours and minutes if over 60 minutes
     const formatTime = (time) => {
-        if (time === 0) {
-            return null; // Return null if time is 0 to exclude from rendering
-        }
+        if (time === 0) return null;
         if (time >= 60) {
             const hours = Math.floor(time / 60);
             const minutes = time % 60;
-            if (minutes === 0) {
-                return `${hours}h`;
-            } else {
-                return `${hours}h ${minutes}min`;
-            }
+            return minutes === 0 ? `${hours}h` : `${hours}h ${minutes}min`;
         }
         return `${time}min`;
     };
@@ -169,13 +176,11 @@ function updateTime(quantity) {
     cas2Total = formatTime(cas2Total);
     cas3Total = formatTime(cas3Total);
 
-    // Calculate total time
     let skupniCas = (cas1Adjust ? cas1 * quantity : cas1) + 
                     (cas2Adjust ? cas2 * quantity : cas2) + 
                     (cas3Adjust ? cas3 * quantity : cas3);
     skupniCas = formatTime(skupniCas);
 
-    // Update HTML
     const timeElement = document.getElementById('prepTime');
     if (timeElement) {
         let timeListItems = '';
@@ -203,12 +208,9 @@ function multiplyBy() {
 function renderNotes(notes) {
     const notesContainer = document.getElementById('notesContainer');
     if (notesContainer) {
-        if (notes !== "0") {
-            const html = `<br><div class="box"><center>* - <em><u>${notes}</u></em></center></div>`;
-            notesContainer.innerHTML = html;
-        } else {
-            notesContainer.innerHTML = ''; // Clear any previous content if notes is "0"
-        }
+        notesContainer.innerHTML = notes !== "0" 
+            ? `<br><div class="box"><center>* - <em><u>${notes}</u></em></center></div>`
+            : '';
     }
 }
 
@@ -227,7 +229,7 @@ document.getElementById('plusButton').addEventListener('click', function(e) {
 document.addEventListener('DOMContentLoaded', function() {
     updateQuantityText();
     updateRecipe(zacetnaKolicina);
-    updateTime(zacetnaKolicina); // Initial time calculation
+    updateTime(zacetnaKolicina);
     document.getElementById('steviloOseb').value = zacetnaKolicina;
-    renderNotes(opombe); // Render notes on page load
+    renderNotes(opombe);
 });
