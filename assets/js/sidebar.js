@@ -134,16 +134,18 @@ function renderArticles() {
     articlesContainer.innerHTML = html;
 }
 
-// Render filter buttons dynamically based on tags
+// Render filter buttons dynamically based on tags (sorted alphabetically)
 function renderFilterButtons() {
     const buttonContainer = document.querySelector('.button-container');
     if (buttonContainer) {
-        const tags = ['VSI', ...new Set(articles.map(article => article.tag.toUpperCase()))];
+        const tags = ['VSI', ...[...new Set(articles.map(article => article.tag.toUpperCase()))].sort()];
+
         let buttonsHTML = tags.map(tag => `
             <button id="${tag === 'VSI' ? 'showAllArticles' : `filter${tag}`}" class="button ${tag === 'VSI' ? 'primary' : ''}" onclick="filterContent(${tag === 'VSI' ? "'all'" : `'${tag.toLowerCase()}'`})">
                 ${tag}
             </button>
         `).join('');
+
         buttonContainer.innerHTML = buttonsHTML;
     }
 }
