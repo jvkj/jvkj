@@ -17,24 +17,6 @@ const articles = [
         alt: "Ameriške palačinke",
         description: "Si si zaželel/a neverjetno puhast, zlato zapečen in sladek obrok? Ameriške palačinke so hitre in enostavne za pripravo - kot nalašč za visok kup, premazan/prelit z najljubšimi dodatki!"
     },
-    /*{
-        title: "Piškoti - NAVADNI & KRHKI",
-        link: "brst_oh_gorcicna.html",
-        tag: "piskoti",
-        fav: "0",
-        image: "pic01.jpeg",
-        alt: "Navadni krhki piškoti",
-        description: "Praženi brstični ohrovt v gorčični omaki je popolna mešanica hrustljavosti in bogatega okusa. Kombinacija sladkaste karamelizacije in pikantne gorčice ustvarja jed, ki zna navdušiti tudi tiste, ki sicer niso največji ljubitelji brstičnega ohrovta."
-    },*/
-    /*{
-        title: "Piškoti - SKALCE",
-        link: "brst_oh_gorcicna.html",
-        tag: "piskoti",
-        fav: "1",
-        image: "pic03.jpeg",
-        alt: "Skalce",
-        description: "Praženi brstični ohrovt v gorčični omaki je popolna mešanica hrustljavosti in bogatega okusa. Kombinacija sladkaste karamelizacije in pikantne gorčice ustvarja jed, ki zna navdušiti tudi tiste, ki sicer niso največji ljubitelji brstičnega ohrovta."
-    },*/
     {
         title: "Piškoti - MEDENJAKI",
         link: "medenjaki.html",
