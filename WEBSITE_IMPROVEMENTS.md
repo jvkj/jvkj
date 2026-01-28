@@ -2,12 +2,15 @@
 
 **Website**: Recepti od A do Ž (Recipe Collection)
 **Analysis Date**: 2026-01-28
+**Hosting**: GitHub Pages (static site)
 
 ---
 
 ## Executive Summary
 
 This Slovenian recipe website is a well-structured static PWA with dynamic JavaScript functionality. However, there are several areas where improvements would enhance SEO, accessibility, performance, security, and maintainability.
+
+> **Note**: All recommendations in this document are compatible with GitHub Pages static hosting. No server-side rendering or backend changes are suggested.
 
 ---
 
@@ -17,7 +20,7 @@ This Slovenian recipe website is a well-structured static PWA with dynamic JavaS
 **Location**: All HTML files (`index.html:5`, `palacinke_ameriske.html:5`, etc.)
 **Issue**: `<title></title>` tags are empty and set dynamically via JavaScript
 **Impact**: Search engines may not properly index page titles
-**Recommendation**: Set static title tags or use server-side rendering for SEO-critical content
+**Recommendation**: Add static title tags directly in HTML (works perfectly on GitHub Pages)
 
 ```html
 <!-- Current -->
@@ -179,8 +182,17 @@ span.innerHTML = `<img src="images/${photo}" alt="${altText}" />`;
 ### 4.1 Hardcoded Cache Paths
 **Location**: `service-worker.js:6-46`
 **Issue**: All paths are hardcoded with `/jvkj/` prefix
-**Impact**: Won't work if deployed to different URL structure
-**Recommendation**: Use relative paths or dynamic path generation
+**Impact**: Tied to specific GitHub Pages project URL structure
+**Recommendation**: For GitHub Pages project sites (username.github.io/repo-name), the `/jvkj/` prefix is correct. However, consider using a config variable at the top of the service worker for easier maintenance:
+
+```javascript
+const BASE_PATH = '/jvkj';  // Change this if repo name changes
+const urlsToCache = [
+  `${BASE_PATH}/`,
+  `${BASE_PATH}/index.html`,
+  // ...
+];
+```
 
 ### 4.2 Missing medenjaki.html
 **Location**: `service-worker.js`
@@ -251,7 +263,12 @@ if (minusButton) {
 
 ### 5.4 Duplicate Code in HTML Templates
 **Issue**: Recipe pages share nearly identical HTML structure
-**Recommendation**: Consider a templating system or static site generator
+**Recommendation**: Consider GitHub Pages-compatible options:
+- **Jekyll** (built-in to GitHub Pages) - use layouts and includes
+- **GitHub Actions** with any static site generator (11ty, Hugo, etc.)
+- **Manual approach**: Keep a template file and copy it for new recipes
+
+For the current small recipe count, manual management is acceptable.
 
 ---
 
@@ -262,17 +279,25 @@ if (minusButton) {
 **Issue**: Recipe data embedded in inline `<script>` tags
 **Recommendation**: Move data to external JSON files for CSP compliance
 
-### 6.2 Form Without CSRF Protection
+### 6.2 Unnecessary Form Attributes
 **Location**: Recipe pages
-**Issue**: Form has `method="post"` but no action/protection
-**Recommendation**: Remove form method or implement proper handling
-
-### 6.3 No Content Security Policy
-**Recommendation**: Add CSP headers/meta tags
+**Issue**: Form has `method="post"` but the form is only used client-side for JavaScript
+**Recommendation**: Remove the `method="post"` attribute since there's no backend on GitHub Pages. Change to:
 
 ```html
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com">
+<form onsubmit="return false;">
+<!-- or simply remove the <form> wrapper entirely -->
 ```
+
+### 6.3 Content Security Policy
+**Note**: GitHub Pages doesn't allow custom HTTP headers, but you can use meta tags.
+**Recommendation**: Add CSP meta tag (note: `'unsafe-inline'` needed for inline scripts):
+
+```html
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com">
+```
+
+**Better long-term**: Move inline scripts to external files to allow stricter CSP.
 
 ---
 
@@ -281,7 +306,15 @@ if (minusButton) {
 ### 7.1 Disabled Search Feature
 **Location**: `index.html:81-85`
 **Issue**: Search form is commented out
-**Recommendation**: Implement client-side search functionality
+**Recommendation**: Implement client-side search using JavaScript. Since `articles.js` already contains all recipe data, you can filter recipes without any backend:
+
+```javascript
+function searchRecipes(query) {
+  return articles.filter(article =>
+    article.title.toLowerCase().includes(query.toLowerCase())
+  );
+}
+```
 
 ### 7.2 Print Stylesheet
 **Issue**: No print-optimized styles for recipe printing
@@ -355,4 +388,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 ## Conclusion
 
-The website has a solid foundation with good responsive design and PWA capabilities. The highest priority improvements should focus on SEO (titles, meta descriptions, structured data) and accessibility (language attribute, form accessibility). Performance optimizations like image lazy loading and font loading strategies would provide noticeable improvements with minimal effort.
+The website has a solid foundation with good responsive design and PWA capabilities. All recommended improvements can be implemented while keeping the site fully static and compatible with GitHub Pages.
+
+**Highest priority** improvements:
+- SEO: Add static titles, meta descriptions, and Schema.org markup directly in HTML
+- Accessibility: Add `lang="sl"`, fix form labels, add image alt text
+
+**Performance quick wins** (no build step required):
+- Add `loading="lazy"` to images
+- Add preconnect hints for Google Fonts
+- Use `defer` on script tags
+
+The current architecture works well for a small recipe collection. If the site grows significantly, consider migrating to Jekyll (built into GitHub Pages) for easier template management.
