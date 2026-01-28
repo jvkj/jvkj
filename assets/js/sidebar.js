@@ -196,7 +196,8 @@ function filterContent(filter) {
 function renderPhoto(photo, spanId) {
     const span = document.getElementById(spanId);
     if (span) {
-        span.innerHTML = `<img src="images/${photo}" alt="" />`;
+        const altText = typeof naslov !== 'undefined' ? naslov : 'Recipe image';
+        span.innerHTML = `<img src="images/${photo}" alt="${altText}" loading="lazy" />`;
     }
 }
 
